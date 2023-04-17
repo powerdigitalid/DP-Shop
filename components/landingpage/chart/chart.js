@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Chart() {
   return (
-    <div className="container-fluid pt-5">
+    <div className="container-fluid pt-5" id="chart">
       <div className="row px-xl-5">
         <div className="col-lg-8 table-responsive mb-5">
           <table className="table table-bordered text-center mb-0">
@@ -18,7 +18,11 @@ export default function Chart() {
             <tbody className="align-middle">
               <tr>
                 <td className="align-middle">
-                  <img src="/landingpage/img/product-1.jpg" alt style={{ width: 50 }} />{" "}
+                  <img
+                    src="/landingpage/img/product-1.jpg"
+                    alt
+                    style={{ width: 50 }}
+                  />{" "}
                   Colorful Stylish Shirt
                 </td>
                 <td className="align-middle">$150</td>
@@ -53,7 +57,11 @@ export default function Chart() {
               </tr>
               <tr>
                 <td className="align-middle">
-                  <img src="/landingpage/img/product-2.jpg" alt style={{ width: 50 }} />{" "}
+                  <img
+                    src="/landingpage/img/product-2.jpg"
+                    alt
+                    style={{ width: 50 }}
+                  />{" "}
                   Colorful Stylish Shirt
                 </td>
                 <td className="align-middle">$150</td>
@@ -88,7 +96,11 @@ export default function Chart() {
               </tr>
               <tr>
                 <td className="align-middle">
-                  <img src="/landingpage/img/product-3.jpg" alt style={{ width: 50 }} />{" "}
+                  <img
+                    src="/landingpage/img/product-3.jpg"
+                    alt
+                    style={{ width: 50 }}
+                  />{" "}
                   Colorful Stylish Shirt
                 </td>
                 <td className="align-middle">$150</td>
@@ -123,7 +135,11 @@ export default function Chart() {
               </tr>
               <tr>
                 <td className="align-middle">
-                  <img src="/landingpage/img/product-4.jpg" alt style={{ width: 50 }} />{" "}
+                  <img
+                    src="/landingpage/img/product-4.jpg"
+                    alt
+                    style={{ width: 50 }}
+                  />{" "}
                   Colorful Stylish Shirt
                 </td>
                 <td className="align-middle">$150</td>
@@ -158,7 +174,11 @@ export default function Chart() {
               </tr>
               <tr>
                 <td className="align-middle">
-                  <img src="/landingpage/img/product-5.jpg" alt style={{ width: 50 }} />{" "}
+                  <img
+                    src="/landingpage/img/product-5.jpg"
+                    alt
+                    style={{ width: 50 }}
+                  />{" "}
                   Colorful Stylish Shirt
                 </td>
                 <td className="align-middle">$150</td>
@@ -195,18 +215,41 @@ export default function Chart() {
           </table>
         </div>
         <div className="col-lg-4">
-          <form className="mb-5" action>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control p-4"
-                placeholder="Coupon Code"
-              />
-              <div className="input-group-append">
-                <button className="btn btn-primary">Apply Coupon</button>
+          <h4 className="">
+            <i className="fas fa-wallet"></i> Pembayaran
+          </h4>
+          <br />
+          <h5>BCA : ...</h5>
+          <h5>BRI : ...</h5>
+          <h5>BNI : ...</h5>
+          <div className="d-flex mb-4 mt-4">
+            <p className="text-dark font-weight-medium mb-0 mr-3">Ekspedisi:</p>
+            <form>
+              <div className="custom-control custom-radio custom-control-inline">
+                <input
+                  type="radio"
+                  className="custom-control-input"
+                  id="color-1"
+                  name="color"
+                />
+                <label className="custom-control-label" htmlFor="color-1">
+                  JNT
+                </label>
               </div>
-            </div>
-          </form>
+              <div className="custom-control custom-radio custom-control-inline">
+                <input
+                  type="radio"
+                  className="custom-control-input"
+                  id="color-2"
+                  name="color"
+                />
+                <label className="custom-control-label" htmlFor="color-2">
+                  JNE
+                </label>
+              </div>
+            </form>
+          </div>
+
           <div className="card border-secondary mb-5">
             <div className="card-header bg-secondary border-0">
               <h4 className="font-weight-semi-bold m-0">Cart Summary</h4>

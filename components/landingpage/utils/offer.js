@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Offer() {
   return (
-    <div className="container-fluid offer pt-5">
+    <div className="container-fluid offer pt-5" id="discount">
       <div className="row px-xl-5">
         <div className="col-md-6 pb-4">
           <div className="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">

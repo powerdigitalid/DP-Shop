@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Layout from '../components/landingpage/utils/layout'
 import Featured from '../components/landingpage/utils/featured'
 import Offer from '../components/landingpage/utils/offer'
-import Product from '../components/landingpage/product/product'
+import TrendProduct from '../components/landingpage/product/trendproduct'
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
       <Layout>
         <Featured/>
         <Offer/>
-        <Product/>
+        <TrendProduct/>
       </Layout>
     </>
   )
