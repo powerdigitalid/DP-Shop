@@ -1,5 +1,6 @@
 import React from "react";
 import Banner from "./banner";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -93,15 +94,15 @@ export default function Navbar() {
                 id="navbarCollapse"
               >
                 <div className="navbar-nav mr-auto py-0">
-                  <a href="index.html" className="nav-item nav-link active">
+                  <Link href="/" className="nav-item nav-link active">
                     Home
-                  </a>
-                  <a href="shop.html" className="nav-item nav-link">
+                  </Link>
+                  <Link href="/landingpage/chart" className="nav-item nav-link">
                     Shop
-                  </a>
-                  <a href="detail.html" className="nav-item nav-link">
+                  </Link>
+                  <Link href="/landingpage/detail" className="nav-item nav-link">
                     Shop Detail
-                  </a>
+                  </Link>
                   <div className="nav-item dropdown">
                     <a
                       href="#"
