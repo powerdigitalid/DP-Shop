@@ -12,7 +12,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-1.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-1.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -38,7 +38,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-2.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-2.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -64,7 +64,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-3.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-3.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -90,7 +90,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-4.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-4.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -116,7 +116,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-5.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-5.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -142,7 +142,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-6.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-6.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -168,7 +168,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-7.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-7.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -194,7 +194,7 @@ export default function Product() {
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
           <div className="card product-item border-0 mb-4">
             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              <img className="img-fluid w-100" src="img/product-8.jpg" alt />
+              <img className="img-fluid w-100" src="/landingpage/img/product-8.jpg" alt />
             </div>
             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
               <h6 className="text-truncate mb-3">Colorful Stylish Shirt</h6>

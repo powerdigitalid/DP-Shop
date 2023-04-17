@@ -6,7 +6,7 @@ export default function Offer() {
       <div className="row px-xl-5">
         <div className="col-md-6 pb-4">
           <div className="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-            <img src="img/offer-1.png" alt />
+            <img src="/landingpage/img/offer-1.png" alt />
             <div className="position-relative" style={{ zIndex: 1 }}>
               <h5 className="text-uppercase text-primary mb-3">
                 20% off the all order
@@ -20,7 +20,7 @@ export default function Offer() {
         </div>
         <div className="col-md-6 pb-4">
           <div className="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-            <img src="img/offer-2.png" alt />
+            <img src="/landingpage/img/offer-2.png" alt />
             <div className="position-relative" style={{ zIndex: 1 }}>
               <h5 className="text-uppercase text-primary mb-3">
                 20% off the all order
