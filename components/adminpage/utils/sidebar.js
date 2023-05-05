@@ -68,7 +68,7 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className={activeMenu == "formcustomerpages" ? "active" : ""}>
-            <Link className="nav-link" href="/admin/formcustomerpages">
+            <Link className="nav-link" href="/admin/user">
               <i className="fas fa-users" /> <span>User</span>
             </Link>
           </li>

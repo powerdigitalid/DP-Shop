@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import React from 'react'
 import AllProducts from '../../../components/adminpage/formproduk/allproduk'
 import FormInputProduct from '../../../components/adminpage/formproduk/forminputproduk'

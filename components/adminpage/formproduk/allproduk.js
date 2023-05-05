@@ -16,7 +16,7 @@ export default function AllProducts() {
                 <div className="text-center container py-5">
                     <div className="row">
                         <div className="col-lg-4 col-md-12 mb-4">
-                            <div className="card">
+                            <div className="card shadow">
                                 <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
                                     <img src="https://brtnetwork.id/wp-content/uploads/2022/09/jadi-beautypreneur-skincare-lokal-1024x576.webp" className="w-100" />
                                     <a href="#!">
@@ -43,7 +43,7 @@ export default function AllProducts() {
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6 mb-4">
-                            <div className="card">
+                            <div className="card shadow">
                                 <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
                                     <img src="https://brtnetwork.id/wp-content/uploads/2022/09/jadi-beautypreneur-skincare-lokal-1024x576.webp" className="w-100" />
                                     <a href="#!">
@@ -70,7 +70,7 @@ export default function AllProducts() {
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6 mb-4">
-                            <div className="card">
+                            <div className="card shadow">
                                 <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
                                     <img src="https://brtnetwork.id/wp-content/uploads/2022/09/jadi-beautypreneur-skincare-lokal-1024x576.webp" className="w-100" />
                                     <a href="#!">
