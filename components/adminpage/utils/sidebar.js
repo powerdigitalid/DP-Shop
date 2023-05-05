@@ -62,30 +62,14 @@ export default function Sidebar() {
               <i className="fas fa-fire" /> <span>Dashboard</span>
             </Link>
           </li>
-          <li className={activeMenu == "editbannerpages" ? "active" : ""}>
-            <Link className="nav-link" href="/admin/editbannerpages">
-              <i className="fas fa-pencil-alt" /> <span>Edit Banner</span>
-            </Link>
-          </li>
           <li className={activeMenu == "formprodukpages" ? "active" : ""}>
             <Link className="nav-link" href="/admin/formprodukpages">
               <i className="fas fa-store" /> <span>Input Products</span>
             </Link>
           </li>
-          <li className={activeMenu == "formtreatmentpages" ? "active" : ""}>
-            <Link className="nav-link" href="/admin/formtreatmentpages">
-              <i className="fas fa-female" /> <span>Input Treatments</span>
-            </Link>
-          </li>
           <li className={activeMenu == "formcustomerpages" ? "active" : ""}>
             <Link className="nav-link" href="/admin/formcustomerpages">
               <i className="fas fa-users" /> <span>Customer</span>
-            </Link>
-          </li>
-          <li className={activeMenu == "reservationpages" ? "active" : ""}>
-            <Link className="nav-link" href="/admin/reservationpages">
-              <i className="fas fa-sticky-note" />
-              <span>Tabel Reservation</span>
             </Link>
           </li>
           <li className={activeMenu == "transaksipages" ? "active" : ""}>
