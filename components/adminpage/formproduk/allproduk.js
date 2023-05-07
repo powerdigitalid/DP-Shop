@@ -22,7 +22,7 @@ export default function AllProducts() {
                                     <a href="#!">
                                         <div className="mask">
                                             <div className="d-flex justify-content-start align-items-end h-100 my-1">
-                                                <Link className="btn btn-info rounded mr-2" style={{ color: "black" }} href={"#"}>Edit</Link>
+                                                <Link className="btn btn-info rounded ml-1 mr-2" style={{ color: "black" }} href={"#"}>Edit</Link>
                                                 <Link className="btn btn-danger rounded" style={{ color: "black" }} href={"#"}>Hapus</Link>
                                             </div>
                                         </div>
@@ -49,7 +49,7 @@ export default function AllProducts() {
                                     <a href="#!">
                                         <div className="mask">
                                             <div className="d-flex justify-content-start align-items-end h-100 my-1">
-                                                <Link className="btn btn-info rounded mr-2" style={{ color: "black" }} href={"#"}>Edit</Link>
+                                                <Link className="btn btn-info rounded ml-1 mr-2" style={{ color: "black" }} href={"#"}>Edit</Link>
                                                 <Link className="btn btn-danger rounded" style={{ color: "black" }} href={"#"}>Hapus</Link>
                                             </div>
                                         </div>
@@ -76,7 +76,7 @@ export default function AllProducts() {
                                     <a href="#!">
                                         <div className="mask">
                                             <div className="d-flex justify-content-start align-items-end h-100 my-1">
-                                                <Link className="btn btn-info rounded mr-2" style={{ color: "black" }} href={"#"}>Edit</Link>
+                                                <Link className="btn btn-info rounded ml-1 mr-2" style={{ color: "black" }} href={"#"}>Edit</Link>
                                                 <Link className="btn btn-danger rounded" style={{ color: "black" }} href={"#"}>Hapus</Link>
                                             </div>
                                         </div>
