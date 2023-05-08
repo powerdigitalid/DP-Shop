@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function Detailpemesanan() {
@@ -153,9 +154,9 @@ export default function Detailpemesanan() {
                 <h5 className="font-weight-bold">Total</h5>
                 <h5 className="font-weight-bold">Rp. 635.000</h5>
               </div>
-              <button className="btn btn-block btn-primary my-3 py-3">
-                Proceed To Checkout
-              </button>
+              <Link href="/admin/pemesanan" className="btn btn-block btn-primary my-3 py-3">
+                Kembali
+              </Link>
             </div>
           </div>
         </div>
