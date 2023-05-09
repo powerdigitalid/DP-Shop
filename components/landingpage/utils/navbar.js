@@ -44,11 +44,8 @@ export default function Navbar() {
                   </Link>
                 </div>
                 <div className="navbar-nav ml-auto py-0">
-                  <Link href="/landingpage/auth/login" className="nav-item nav-link">
+                  <Link href="/login" className="nav-item nav-link">
                     Login
-                  </Link>
-                  <Link href="/landingpage/auth/register" className="nav-item nav-link">
-                    Register
                   </Link>
                 </div>
               </div>
