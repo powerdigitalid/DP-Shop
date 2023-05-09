@@ -78,7 +78,7 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className={activeMenu == "transaksipages" ? "active" : ""}>
-            <Link className="nav-link" href="/admin/transaksipages">
+            <Link className="nav-link" href="/admin/history">
               <i className="fas fa-book-open" /> <span>History Transaksi</span>
             </Link>
           </li>
