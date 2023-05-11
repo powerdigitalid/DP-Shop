@@ -23,11 +23,11 @@ https://themewagon.com/themes/breeze-free-bootstrap-4-responsive-admin-dashboard
 
 - [ ] Create Produk
 - [ ] Counter Dashboard
-- [ ] CRUD Produk
+- [X] CRUD Produk (get all, create)
 - [ ] Input Order Customer 
 - [ ] Data Order
 - [ ] User table (list)
-- [ ] CRUD User
+- [X] CRUD User
 - [ ] Login (admin)
 - [ ] Login User next auth and firebase
 - [ ] Logout

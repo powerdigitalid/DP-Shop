@@ -15,23 +15,13 @@ model product {
   product_desc  String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
-  Order         Order[]
+  order         order[]
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-}
-
-model Order {
+model order {
   id         Int      @id @default(autoincrement())
   user_id    Int
-  product    product  @relation(fields: [product_id], references: [id])
-  product_id Int      @map("product_id")
+  product_id Int
   price      Int
   order_date DateTime
   quantity   Int
@@ -41,5 +31,17 @@ model Order {
   subtotal   Int
   shipping   Int
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())@updatedAt
+  updatedAt  DateTime @default(now())
+  product    product  @relation(fields: [product_id], references: [id], map: "Order_product_id_fkey")
+
+  @@index([product_id], map: "Order_product_id_fkey")
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique(map: "User_username_key")
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }

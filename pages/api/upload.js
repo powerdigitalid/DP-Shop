@@ -1,4 +1,4 @@
-import { prisma } from "../../../libs/prisma.libs";
+import prisma from "../../../libs/prisma.libs";
 import multer from "multer";
 import path from "path";
 
@@ -17,7 +17,7 @@ const upload = multer({
   limits: {
     fileSize: 1024 * 1024, // Batasi ukuran file (dalam bytes), contoh: 1 MB
   },
-}); 
+});
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
