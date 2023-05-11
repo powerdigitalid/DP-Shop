@@ -1,5 +1,6 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 import LandingPageScripts from '../components/landingpage/utils/scripts'
+import AdminScript from '../components/adminpage/utils/scripts'
 
 export default function Document() {
   return (
@@ -9,6 +10,7 @@ export default function Document() {
         <Main />
         <NextScript />
         <LandingPageScripts />
+        <AdminScript/>
       </body>
     </Html>
   )

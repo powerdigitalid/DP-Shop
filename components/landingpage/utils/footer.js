@@ -19,7 +19,7 @@ export default function Footer() {
           </p>
           <p className="mb-2">
             <i className="fa fa-map-marker-alt text-primary mr-3" />
-            123 Street, New York, USA
+            Jl. Raya Janti No.143, Karang Jambe, Kec. Umbulharjo, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55165
           </p>
           <p className="mb-2">
             <i className="fa fa-envelope text-primary mr-3" />
@@ -27,7 +27,7 @@ export default function Footer() {
           </p>
           <p className="mb-0">
             <i className="fa fa-phone-alt text-primary mr-3" />
-            +012 345 67890
+            +62 812-3456-7890
           </p>
         </div>
         <div className="col-lg-8 col-md-12">

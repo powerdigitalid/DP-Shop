@@ -78,15 +78,15 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className={activeMenu == "transaksipages" ? "active" : ""}>
-            <Link className="nav-link" href="/admin/transaksipages">
+            <Link className="nav-link" href="/admin/history">
               <i className="fas fa-book-open" /> <span>History Transaksi</span>
             </Link>
           </li>
         </ul>
         <div className="mt-4 mb-4 p-3">
           <button
-            className="btn btn-danger btn-lg btn-block btn-icon-split"
-            style={{height: 40}}
+            className="btn btn-success border-0 btn-lg btn-block btn-icon-split"
+            style={{height: "40px", backgroundColor:"#00cc00", color:"white"}}
           >
             <i className="fas fa-sign-out-alt"/><span className="hide-sidebar-mini">Close</span>
           </button>

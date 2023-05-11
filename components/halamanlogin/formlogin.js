@@ -1,80 +1,34 @@
 export default function Formlogin() {
   return (
-    <section className="section">
-      <div className="container mt-5">
-        {/* <div className={`alert alert-${error.includes("successfully")?'success':'danger'} alert-dismissible fade ${error == '' ? '': 'show'}`} role="alert">
-          {error}
-        </div> */}
-        <div className="row">
-          <div className="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-            <div className="login-brand">
-              {/* <img
-                src="dist/img/logo/logos.png"
-                alt="logo"
-                width={200}
-                className="shadow-light"
-              /> */}
-            </div>
-            <div className="card card-primary">
-              <div className="card-header">
-                <h4>Login Administrator</h4>
-              </div>
-              <div className="card-body">
-                <div
-                  className="needs-validation"
-                  noValidate
-                >
-                  <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      id="username"
-                      type="text"
-                      className="form-control"
-                      name="username"
-                      tabIndex={1}
-                      required
-                      autoFocus
-                    />
-                    <div className="invalid-feedback">
-                      Please fill in your username
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="d-block">
-                      <label htmlFor="password" className="control-label">
-                        Password
-                      </label>
-                    </div>
-                    <input
-                      id="password"
-                      type="password"
-                      className="form-control"
-                      name="password"
-                      tabIndex={2}
-                      required
-                    />
-                    <div className="invalid-feedback">
-                      please fill in your password
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-lg btn-block"
-                      tabIndex={4}
-                      href="#"
-                    >
-                      {/* {loading ? "Loading..." : "Login"} */}
-                        <h5 className="" style={{color:"white"}}>Login</h5>
-                    </button>
-                  </div>
+    <section className="vh-100">
+      <div className="container py-5 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div className="card shadow-2-strong" style={{ borderRadius: '1rem' }}>
+              <div className="card-body p-5 text-center shadow">
+                <h3 className="mb-5">Login</h3>
+                <div className="form-outline mb-4">
+                  <input type="email" id="typeEmailX-2" className="form-control form-control-lg" />
+                  <label className="form-label" htmlFor="typeEmailX-2">Email</label>
                 </div>
+                <div className="form-outline mb-4">
+                  <input type="password" id="typePasswordX-2" className="form-control form-control-lg" />
+                  <label className="form-label" htmlFor="typePasswordX-2">Password</label>
+                </div>
+                {/* Checkbox */}
+                <div className="form-check d-flex justify-content-start mb-4">
+                  <input className="form-check-input" type="checkbox" defaultValue id="form1Example3" />
+                  <label className="form-check-label" htmlFor="form1Example3"> Remember password </label>
+                </div>
+                <button className="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                <hr className="my-4" />
+                <button className="btn btn-lg btn-block btn-primary border-0" style={{ backgroundColor: '#dd4b39' }} type="submit"><i className="fab fa-google me-2" /> Sign in with google</button>
               </div>
             </div>
-            <div className="simple-footer">Copyright © Power Digital Technology</div>
           </div>
         </div>
       </div>
     </section>
+
   );
 }
