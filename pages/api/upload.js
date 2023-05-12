@@ -1,58 +1,56 @@
-import prisma from "../../libs/prisma.libs";
-import path from "path";
-import fs from "fs";
-import multer from "multer";
-import sharp from "sharp";
+import prisma from '../../libs/prisma.libs.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: './public/uploads',
-    filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`)
-    }
-  }),
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      return cb(new Error('Only images are allowed'))
-    }
-    cb(null, true)
+const storage = multer.diskStorage({
+  destination: path.join(process.cwd(), 'public/uploads'),
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
   }
 });
 
-const multerAny = multer().any();
-
-export const config = {
-  api: {
-    bodyParser: false,
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5 // 5MB limit
   },
-};
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    if (extname && mimetype) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  }
+}).single('product_img');
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    multerAny(req, res, async (err) => {
-      if (err) {
-        return res.status(400).json({ message: err.message });
-      }
-
-      const { product_name, product_price, product_desc } = req.body;
-      const product_img = req.files[0].filename;
-
+  upload(req, res, async err => {
+    if (err) {
+      res.status(400).json({ message: err.message });
+    } else {
+      const { product_name, product_desc, product_price } = req.body;
+      const { filename, path } = req.file;
       try {
-        const product = await prisma.product.create({
+        const newProduct = await prisma.product.create({
           data: {
             product_name,
-            product_price,
             product_desc,
-            product_img,
-          },
+            product_price: parseInt(product_price),
+            product_img: filename
+          }
         });
-        res.status(200).json({ message: "Product created", data: product });
+        res.status(200).json(newProduct);
       } catch (error) {
-        res.status(400).json({ message: "Product failed to create", error: error.message });
+        console.error(error);
+        res.status(500).json({ message: 'Error while creating product' });
       }
-    });
-  } else {
-    res.status(405).json({ message: "Method not allowed" });
-  }
+    }
+  });
 }

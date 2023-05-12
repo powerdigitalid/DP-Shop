@@ -5,7 +5,7 @@ export function setCookie(cookieName, cookieValue, hours) {
   date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
   document.cookie = cookieName + " = " + cookieValue + "; expires = " + date.toGMTString();
 }
-
+ 
 export function getCookie(name) {
   let cookieName = name + "=";
   let cookieArray = document.cookie.split(';');

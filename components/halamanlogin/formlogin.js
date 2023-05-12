@@ -1,4 +1,45 @@
+import React, {useState} from 'react';
+import {useRouter} from 'next/router';
+import {setCookie} from '../../libs/cookie.lib';
+
 export default function Formlogin() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const router = useRouter();
+
+  const handleLogin = (e) =>{
+    e.preventDefault();
+    setLoading(true);
+    fetch('http://localhost:3000/api/auth/login', {
+      method: "POST",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username,
+        password
+      }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.message === "Login success" && data.user.token){
+        alert(data.message);
+        setCookie("token", data.user.token, 1);
+        router.push("/dashboard");
+      } else {
+        setError(data.message);
+      }
+      setLoading(false);
+    })
+    .catch((err) => {
+      setError(err);
+      alert(err);
+      setLoading
+    });
+  };
+
   return (
     <section className="vh-100">
       <div className="container py-5 h-100">
