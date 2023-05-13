@@ -15,8 +15,8 @@ https://themewagon.com/themes/breeze-free-bootstrap-4-responsive-admin-dashboard
 - [ ] Data Produk (Card)
 - [ ] Data Order
 - [ ] User table (get all, create, delete,update)
-- [ ] Login Admin (json)
-- [ ] Login Customer (google/next auth)
+- [X] Login Admin (json)
+- [X] Login Customer (google/next auth)
 - [ ] Logout
 
 ### Backend
@@ -28,6 +28,6 @@ https://themewagon.com/themes/breeze-free-bootstrap-4-responsive-admin-dashboard
 - [ ] Data Order
 - [ ] User table (list)
 - [X] CRUD User
-- [ ] Login (admin)
-- [ ] Login User next auth and firebase
+- [X] Login (admin)
+- [X] Login User next auth with google
 - [ ] Logout

@@ -1,55 +1,51 @@
 import prisma from '../../libs/prisma.libs.js';
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 const storage = multer.diskStorage({
-  destination: path.join(process.cwd(), 'public/uploads'),
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-    );
-  }
+  destination: function (req, file, cb) {
+    cb(null, path.join(process.cwd(), 'public', 'uploads'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().getTime() + '-' + file.originalname);
+  },
 });
 
 const upload = multer({
-  storage,
+  storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5 // 5MB limit
+    fileSize: 1024 * 1024, // 1MB
   },
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-    if (extname && mimetype) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'));
-    }
-  }
 }).single('product_img');
 
 export default async function handler(req, res) {
-  upload(req, res, async err => {
-    if (err) {
-      res.status(400).json({ message: err.message });
+  upload(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      res.status(400).json({ message: 'Image too large' });
+    } else if (err) {
+      res.status(400).json({ message: 'Failed to upload image' });
     } else {
-      const { product_name, product_desc, product_price } = req.body;
-      const { filename, path } = req.file;
+      const { product_name, product_price, product_desc } = req.body;
+      const product_img = req.file.filename;
+
       try {
-        const newProduct = await prisma.product.create({
+        const product = await prisma.product.create({
           data: {
             product_name,
+            product_price,
             product_desc,
-            product_price: parseInt(product_price),
-            product_img: filename
-          }
+            product_img,
+          },
         });
-        res.status(200).json(newProduct);
+        res.status(200).json({ message: 'Product created', data: product });
       } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error while creating product' });
+        res.status(400).json({ message: 'Product failed to create', error });
       }
     }
   });

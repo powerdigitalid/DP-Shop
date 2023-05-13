@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import {setCookie} from '../../libs/cookie.lib';
+import Swl from 'sweetalert2';
 
 export default function Formlogin() {
   const [username, setUsername] = useState('');
@@ -25,7 +26,7 @@ export default function Formlogin() {
     .then((res) => res.json())
     .then((data) => {
       if(data.message === "Login success" && data.user.token){
-        alert(data.message);
+        Swl.fire("Login Success!", "Login Success Redirected in 3 second!", "success");
         setCookie("token", data.user.token, 1);
         router.push("/admin");
       } else {
@@ -35,8 +36,8 @@ export default function Formlogin() {
     })
     .catch((err) => {
       setError(err);
-      alert(err);
-      setLoading
+      Swl.fire("Login Failed!", "Login Failed Redirected in 3 secon!" + err, "error");
+      setLoading(false)
     });
   };
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Swl from 'sweetalert2'
 export default function Sidebar() {
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState("dashboard");
@@ -38,6 +39,24 @@ export default function Sidebar() {
         break;
     }
   };
+
+  const handleLogout =()=>{
+    Swl.fire({
+      title: 'Are you sure?',
+      text: "You will be logged out of the system!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#00cc00',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
+    },3000)
+    Swal.fire("Logout Success!", "Logout Success Redirected in 3 secon!", "success");
+  }
   return (
     <div className="main-sidebar sidebar-style-2">
       <aside id="sidebar-wrapper">
@@ -87,8 +106,9 @@ export default function Sidebar() {
           <button
             className="btn btn-success border-0 btn-lg btn-block btn-icon-split"
             style={{height: "40px", backgroundColor:"#00cc00", color:"white"}}
+            onClick={handleLogout}
           >
-            <i className="fas fa-sign-out-alt"/><span className="hide-sidebar-mini">Close</span>
+            <i className="fas fa-sign-out-alt"/><span className="hide-sidebar-mini"  >Close</span>
           </button>
         </div>
       </aside>
