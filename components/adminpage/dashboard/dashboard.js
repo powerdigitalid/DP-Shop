@@ -1,4 +1,17 @@
+import { useState, useEffect } from "react";
+
 export default function Dashboard() {
+  const [dataCount, setDataCount] = useState({orders: 0, products: 0, users: 0});
+
+  useEffect(() => {
+    fetch("/api/counterDashboard")
+      .then((res) => res.json())
+      .then((data) => {
+        setDataCount(data.data);
+      });
+  }, []);
+
+
   return (
     <div className="row">
       <div className="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -8,10 +21,10 @@ export default function Dashboard() {
           </div>
           <div className="card-wrap">
             <div className="card-header">
-              <h4>Current Reservations</h4>
+              <h4>Data Order</h4>
             </div>
             <div className="card-body">
-              <span>50</span>
+              <span>{dataCount.orders}</span>
             </div>
           </div>
         </div>
@@ -23,10 +36,10 @@ export default function Dashboard() {
           </div>
           <div className="card-wrap">
             <div className="card-header">
-              <h4>Customers</h4>
+              <h4>Users</h4>
             </div>
             <div className="card-body">
-            <span>50</span>
+            <span>{dataCount.users}</span>
             </div>
           </div>
         </div>
@@ -38,10 +51,10 @@ export default function Dashboard() {
           </div>
           <div className="card-wrap">
             <div className="card-header">
-              <h4>Products</h4>
+              <h4>Produck</h4>
             </div>
             <div className="card-body">
-            <span>50</span>
+            <span>{dataCount.products}</span>
             </div>
           </div>
         </div>

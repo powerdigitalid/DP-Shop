@@ -18,6 +18,7 @@ export default function Index() {
       <Layout>
       <Head>
           <title>Dashboard</title>
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <div>
           <div className="section-header">

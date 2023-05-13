@@ -69,6 +69,7 @@ export default function Tabeluser() {
                                 </thead>
                                 <tbody>
                                 {data.length > 0 ? data.map((users, index) => (
+                                    // eslint-disable-next-line react/jsx-key
                                     <tr>
                                         <th scope="row"> {index +1} </th>
                                         <td>{users.username}</td>

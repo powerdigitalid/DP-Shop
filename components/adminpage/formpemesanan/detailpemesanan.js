@@ -13,7 +13,6 @@ export default function Detailpemesanan() {
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
-                <th>Remove</th>
               </tr>
             </thead>
             <tbody className="align-middle">
@@ -23,78 +22,14 @@ export default function Detailpemesanan() {
                     src="/landingpage/img/product-1.jpg"
                     alt
                     style={{ width: 50 }}
-                  />{" "}
-                  Colorful Stylish Shirt
+                  /><br />
+                  <span className="ml-3">Colorful Stylish Shirt</span>
                 </td>
                 <td className="align-middle">Rp. 300.000</td>
-                <td className="align-middle">
-                  <div
-                    className="input-group quantity mx-auto"
-                    style={{ width: 100 }}
-                  >
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-minus">
-                        <i className="fa fa-minus" />
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm bg-secondary text-center"
-                      defaultValue={1}
-                    />
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-plus">
-                        <i className="fa fa-plus" />
-                      </button>
-                    </div>
-                  </div>
-                </td>
+                <td className="align-middle">2</td>
                 <td className="align-middle">Rp. 300.000</td>
-                <td className="align-middle">
-                  <button className="btn btn-sm btn-primary">
-                    <i className="fa fa-times" />
-                  </button>
-                </td>
               </tr>
-              <tr>
-                <td className="align-middle">
-                  <img
-                    src="/landingpage/img/product-2.jpg"
-                    alt
-                    style={{ width: 50 }}
-                  />{" "}
-                  Colorful Stylish Shirt
-                </td>
-                <td className="align-middle">Rp. 300.000</td>
-                <td className="align-middle">
-                  <div
-                    className="input-group quantity mx-auto"
-                    style={{ width: 100 }}
-                  >
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-minus">
-                        <i className="fa fa-minus" />
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm bg-secondary text-center"
-                      defaultValue={1}
-                    />
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-plus">
-                        <i className="fa fa-plus" />
-                      </button>
-                    </div>
-                  </div>
-                </td>
-                <td className="align-middle">Rp. 300.000</td>
-                <td className="align-middle">
-                  <button className="btn btn-sm btn-primary">
-                    <i className="fa fa-times" />
-                  </button>
-                </td>
-              </tr>
+
             </tbody>
           </table>
         </div>
@@ -133,8 +68,8 @@ export default function Detailpemesanan() {
               </div>
             </form>
           </div>
-            <h4>Alamat</h4>
-            <p>Jl Kh. Hasyim Ash`ary Nomor 10</p>
+          <h4>Alamat</h4>
+          <p>Jl Kh. Hasyim Ash`ary Nomor 10</p>
           <div className="card border-secondary mb-5">
             <div className="card-header bg-secondary border-0">
               <h4 className="font-weight-semi-bold m-0">Ringkasan Pemesanan</h4>
