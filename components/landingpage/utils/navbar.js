@@ -46,13 +46,11 @@ export default function Navbar() {
                       Contact
                     </Link>
                   </div>
-                  <div className="navbar-nav ml-auto py-0">
-                    <Link href="/landingpage/login" className="nav-item nav-link">
-                    <button onClick={() => signOut()}>Sign Out</button>
-                    </Link>
+                  <div >
+                    <button onClick={() => signOut()} className="btn btn-block border-2" >Sign Out</button>
                   </div>
-                  <div className="navbar-nav ml-auto py-0">
-                    <div className="nav-item ">
+                  <div className="navbar-nav ml-2 ">
+                    <div className="nav-item ml-2">
                       < img src={session.user.image} alt="user" className="rounded-circle" width="40" height="40" />
                     </div>
                   </div>

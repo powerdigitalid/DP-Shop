@@ -1,17 +1,15 @@
 import React from 'react'
 // import Formlogin from '../components/halamanlogin/formlogin'
 // import Formlogin from '../components/adminpage/login'
-import {useSession, signIn, signOut} from "next-auth/react"
+import {useSession, signIn} from "next-auth/react"
+import Home from '../index'
+import { useRouter } from 'next/router'
 
 export default function Login() {
   const {data: session, status} = useSession()
+  const router = useRouter()
   if (session){
-    return (
-      <div>
-        <h1>signed in as {session.user.email}</h1>
-        <button onClick={() => signOut()}>Sign Out</button>
-      </div>
-    )
+    router.push('/')
   } else {
     return ( 
       <div>
