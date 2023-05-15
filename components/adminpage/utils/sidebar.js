@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Swl from 'sweetalert2'
+import Swal from "sweetalert2";
 export default function Sidebar() {
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState("dashboard");
@@ -41,7 +41,7 @@ export default function Sidebar() {
   };
 
   const handleLogout =()=>{
-    Swl.fire({
+    Swal.fire({
       title: 'Are you sure?',
       text: "You will be logged out of the system!",
       icon: 'warning',

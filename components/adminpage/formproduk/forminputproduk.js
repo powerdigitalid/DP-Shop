@@ -1,5 +1,75 @@
+/* eslint-disable @next/next/no-img-element */
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import {getCookie} from '../../../libs/cookie.lib.js'
 
 export default function FormInputProduct() {
+  const [image, setImage] = useState("");
+  const [nameProduct, setNameProduct] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+
+  const router = useRouter();
+
+  const handleUploadImage = (e) => {
+    let file = e.target.files[0];
+    let formData = new FormData();
+    formData.append("image", file);
+    fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          alert("Upload image success");
+          setImage(res.data);
+        } else {
+          alert("Upload image failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error uploading image: ", error);
+        alert("Upload image failed");
+      });
+  };
+
+
+  const clearData = () => {
+    setImage("");
+    setNameProduct("");
+    setPrice("");
+    setDescription("");
+  };
+
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    const dataProduct = {
+      product_img: image,
+      product_name: nameProduct,
+      product_price: price,
+      product_desc: description,
+    };
+    fetch("/api/produk/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Auth-Token": getCookie("token"),
+      },
+      body: JSON.stringify(dataProduct),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          alert("Add product success");
+          clearData();
+          router.push("/adminpage/produk");
+        } else {
+          alert("Add product failed");
+        }
+      });
+  };
+
   return (
     <>
       <div className="card author-box card-primary">
@@ -9,13 +79,12 @@ export default function FormInputProduct() {
               <h2>Tambahkan Product</h2>
             </div>
           </div>
-          <form>
+          <form onSubmit={handleAddProduct}>
             <div className="author-box-left">
-              <div 
+              <img
                 alt="image"
-                // src={`https://powerdigital.id/rumahatha-backend${product.product_img}`}
-                // value={image}
-                className="rounded author-box-picture"
+                src={image ? image : "/dioshop.png"}
+                className="rounded-circle author-box-picture"
                 style={{ width: "100px", height: "100px" }}
               />
               <div className="clearfix" />
@@ -24,6 +93,7 @@ export default function FormInputProduct() {
                   type="file"
                   className="custom-file-input form-control-sm"
                   id="customFile"
+                  onChange={handleUploadImage}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
                   Choose file
@@ -39,6 +109,9 @@ export default function FormInputProduct() {
                       <input
                         type="text"
                         className="form-control form-control-sm"
+                        placeholder="Nama Produk"
+                        value={nameProduct}
+                        onChange={(e) => setNameProduct(e.target.value)}
                       />
                     </div>
                     <div className="form-group col-sm-6">
@@ -51,6 +124,8 @@ export default function FormInputProduct() {
                           type="text"
                           className="form-control form-control-sm"
                           aria-label="Rupiah"
+                          value={price}
+                          onChange={(e) => setPrice(e.target.value)}
                         />
                         <div className="input-group-append">
                           <span className="form-control form-control-sm">.00</span>
@@ -63,6 +138,10 @@ export default function FormInputProduct() {
                       <label>Deskripsi</label>
                       <textarea
                         class="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                       />
                     </div>
                   </div>

@@ -31,6 +31,12 @@ async function main() {
         product_desc: 'Product 1 Description',
         product_img: 'https://picsum.photos/200/300',
       },
+      {
+        product_name: 'Product 33',
+        product_price: 10000,
+        product_desc: 'Product 1 Description',
+        product_img: 'https://picsum.photos/200/300',
+      },
     ],
     skipDuplicates: true,
   });

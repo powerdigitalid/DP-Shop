@@ -1,8 +1,5 @@
-import moment from "moment/moment";
-import fs from "fs";
-import formidable from "formidable";
+/* eslint-disable import/no-anonymous-default-export */
 import path from "path";
-import slugify from "slugify";
 import multer from "multer";
 
 export const config = {
@@ -18,13 +15,16 @@ const upload = multer({
       const ext = path.extname(file.originalname);
       const name = path.basename(file.originalname, ext);
       cb(null, `${name}-${Date.now()}${ext}`);
-    }
+    },
+    limits: {
+      fileSize: 1000000, // 1 MB
+    },
   })
 });
 
 export default async (req, res) => {
   if (req.method === "POST") {
-    upload.single("file")(req, res, (err) => {
+    upload.single("image")(req, res, (err) => {
       if (err) {
         return res.status(400).json({ error: err.message });
       }

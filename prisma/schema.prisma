@@ -13,6 +13,7 @@ model product {
   product_price Int
   product_img   String
   product_desc  String
+  status        String @default("notordered")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
   order         order[]
@@ -26,7 +27,7 @@ model order {
   order_date DateTime
   quantity   Int
   total      Int
-  payment    String
+  address    String?
   expedisi   String
   subtotal   Int
   shipping   Int
