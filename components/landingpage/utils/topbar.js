@@ -1,5 +1,15 @@
 import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
+import { useState, useEffect } from "react";
+
 export default function Topbar() {
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState({orders: 0});
+  const [loading, setLoading] = useState(false);
+
+
+
   return (
     <>
       <div className="container-fluid">
@@ -59,7 +69,7 @@ export default function Topbar() {
           <div className="col-lg-3 col-6 text-right">
             <Link href="/landingpage/chart#chart" className="btn border">
               <i className="fas fa-shopping-cart text-primary" />
-              <span className="badge">0</span>
+              <span className="badge"> {cart.orders} </span>
             </Link>
           </div>
         </div>

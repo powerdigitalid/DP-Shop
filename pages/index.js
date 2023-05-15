@@ -12,7 +12,7 @@ export default function Home() {
     return (
       <div>
         <Head>
-          <title>Home</title>
+          <title>Welcome {session.user.name}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>

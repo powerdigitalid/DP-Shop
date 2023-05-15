@@ -1,11 +1,12 @@
 import { prisma } from "../../../libs/prisma.libs";
 
 export default function handler(req, res) {
-    const {id} req.query;
+    const {productid,userid} = req.query;
     if (req.method === 'GET') {
         prisma.order.findFirst({
             where: {
-                id: parseInt(id),
+                productid: productid,
+                userid: userid,
             },
             select: {
                 id: true,

@@ -14,7 +14,7 @@ https://themewagon.com/themes/breeze-free-bootstrap-4-responsive-admin-dashboard
 - [ ] Input Produk
 - [ ] Data Produk (Card)
 - [ ] Data Order
-- [ ] User table (get all, create, delete,update)
+- [X] User table (get all, create, delete,update)
 - [X] Login Admin (json)
 - [X] Login Customer (google/next auth)
 - [ ] Logout
