@@ -15,7 +15,32 @@ model product {
   product_desc  String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
-  order         order[]
+  Item          Item[]
+}
+
+model Cart{
+  Id Int @id @default(autoincrement())
+  Items Item[]
+  updatedAt     DateTime @default(now())
+  CreatedAt DateTime @default(now())
+}
+
+model Item{
+  Id  Int @id @default(autoincrement())
+  product    product  @relation(fields: [product_id], references: [id], map: "Order_product_id_fkey")
+  product_id Int  
+  product_price Int
+  Cart  Cart? @relation(fields: [CartId], references: [Id])
+  CartId      Int?
+  order_date   DateTime
+  quantity    Int
+  total      Int
+  address    String?
+  expedisi   String
+  subtotal   Int
+  shipping   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
 }
 
 model order {
@@ -32,8 +57,7 @@ model order {
   shipping   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
-  product    product  @relation(fields: [product_id], references: [id], map: "Order_product_id_fkey")
-
+  product    product  @relation(fields: [product_id], references: [id]) 
   @@index([product_id], map: "Order_product_id_fkey")
 }
 
@@ -46,9 +70,9 @@ model user {
   updatedAt DateTime @default(now())
 }
 
-// model image {
-//   id        Int      @id @default(autoincrement())
-//   image_url String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
-// }
+model Image{
+  Id Int @id @default(autoincrement())
+  path String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
