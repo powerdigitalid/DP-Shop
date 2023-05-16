@@ -34,6 +34,37 @@ export default function TrendProduct() {
             });
     };
 
+    //add handle button add to cart produk and user session
+    const handleAddToCart = (product_id) => {
+      if (session) {
+          fetch('/api/order/cart', {
+              method: "POST",
+              body: JSON.stringify({
+                  product_id: product_id,
+                  customer_id: session.id,
+                  product_price: 0,
+              }),
+              headers: {
+                  "Content-Type": "application/json",
+              },
+          })
+              .then((res) => res.json())
+              .then((res) => {
+                  if (res.data) {
+                      alert("Produk berhasil ditambahkan ke keranjang");
+                  } else {
+                      alert("Produk gagal ditambahkan ke keranjang");
+                  }
+              })
+              .catch((err) => {
+                  console.log(err);
+                  alert("Produk gagal ditambahkan ke keranjang");
+              });
+      } else {
+          signIn();
+      }
+  };
+
     useEffect(() => {
         handleProduct();
     }, []);
@@ -68,7 +99,7 @@ export default function TrendProduct() {
                 <i className="fas fa-eye text-primary mr-1" />
                 View Detail
               </Link>
-              <a href className="btn btn-sm text-dark p-0">
+              <a href className="btn btn-sm text-dark p-0" onClick={() => handleAddToCart(prod.product_id)}>
                 <i className="fas fa-shopping-cart text-primary mr-1"/> 
                 Add to Cart
               </a>

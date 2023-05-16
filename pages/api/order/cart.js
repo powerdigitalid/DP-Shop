@@ -1,26 +1,19 @@
-//patch data product from api/product/[id] to status: "ordered" 
+/* eslint-disable import/no-anonymous-default-export */
+
 import { prisma } from "../../../libs/prisma.libs";
 
-export default async function handler(req, res) {
-    if (req.method !== "PATCH") {
-        const {id} = req.query;
-        if(id) {
-            const product = await prisma.product.update({
-                where: {
-                    id: parseInt(id)
-                },
-                data: {
-                    status: "ordered"
-                }
-            });
-            res.status(200).json({
-                message: "Product updated successfully!",
-                data: product
-            });
-        }
-    } else {
-        res.status(405).json({
-            message: "Method not allowed!"
+//how to create an API to automatically enter products in the cart according to the session entered
+export default async (req, res) => {
+    if (req.method === "POST") {
+        const { product_id, customer_id, product_price } = req.body;
+        const cart = await prisma.cart.create({
+            data: {
+                product_id: parseInt(product_id),
+                customer_id: parseInt(customer_id),
+                product_price: parseInt(product_price),
+            },
         });
+        return res.status(200).json(cart);
     }
-}
+};
+    

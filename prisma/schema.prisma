@@ -15,33 +15,22 @@ model product {
   product_desc  String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
-  Item          Item[]
 }
 
 model Cart{
   Id Int @id @default(autoincrement())
-  Items Item[]
-  updatedAt     DateTime @default(now())
-  CreatedAt DateTime @default(now())
-}
-
-model Item{
-  Id  Int @id @default(autoincrement())
-  product    product  @relation(fields: [product_id], references: [id], map: "Order_product_id_fkey")
-  product_id Int  
+  product product @relation(fields: [ProductId], references: [Id])
+  product_id Int
+  user_google 
+  product_id Int
   product_price Int
-  Cart  Cart? @relation(fields: [CartId], references: [Id])
-  CartId      Int?
-  order_date   DateTime
-  quantity    Int
+  quantity   Int
   total      Int
-  address    String?
-  expedisi   String
-  subtotal   Int
-  shipping   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
+  
 }
+
 
 model order {
   id         Int      @id @default(autoincrement())
@@ -57,8 +46,9 @@ model order {
   shipping   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
-  product    product  @relation(fields: [product_id], references: [id])
-  user       user     @relation(fields: [user_id], references: [id])
+  product product @relation(fields: [ProductId], references: [Id])
+  product_id Int
+  user_google
   
 }
 
@@ -67,13 +57,6 @@ model user {
   name      String
   username  String   @unique(map: "User_username_key")
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-}
-
-model Image{
-  Id Int @id @default(autoincrement())
-  path String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }

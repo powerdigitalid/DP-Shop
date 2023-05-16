@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useState, useEffect } from 'react'
+import { useRouter } from "next/router";
 
 export default function AllProducts() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
+    const router = useRouter();
 
     const handleProduct = () => {
         fetch('/api/produk/all', {
@@ -26,6 +28,8 @@ export default function AllProducts() {
                 setError(err);
             });
     };
+
+    
 
     useEffect(() => {
         handleProduct();

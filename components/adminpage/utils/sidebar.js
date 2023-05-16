@@ -43,19 +43,19 @@ export default function Sidebar() {
   const handleLogout =()=>{
     Swal.fire({
       title: 'Are you sure?',
-      text: "You will be logged out of the system!",
+      text: "You want to logout from this session?",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#00cc00',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!'
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Logout'
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.clear();
-        window.location.href = "/login";
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        router.push("/login");
       }
-    },3000)
-    Swal.fire("Logout Success!", "Logout Success Redirected in 3 secon!", "success");
+    })
   }
   return (
     <div className="main-sidebar sidebar-style-2">
