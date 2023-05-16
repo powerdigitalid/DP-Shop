@@ -1,45 +1,46 @@
-//how to create a new product image from api/upload 
+/* eslint-disable import/no-anonymous-default-export */
+//how to create a new product product_img from api/upload 
 import { prisma } from "../../../libs/prisma.libs";
-import fs from 'fs';
 import path from "path";
+import multer from "multer";
 
-export default async function handler(req, res) {
-  let product_name = req.body.product_name;
-  let product_price = req.body.product_price;
-  let product_desc = req.body.product_desc;
-  let product_img = req.body.product_img;
-
-  let product = await prisma.product.create({
-    data:{
-      product_name,
-      product_price,
-      product_desc
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+ 
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: "./public/uploads",
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      const name = path.basename(file.originalname, ext);
+      cb(null, `${name}-${Date.now()}${ext}`);
     }
-  });
+  }),
+  limits: {
+    fileSize: 1000000, // 1 MB
+  },
+});
 
-  let folderImage = [];
-
-  product_img.map(name =>{
-    folderImage.push(
-      '/public/upload_'+product.id+'_'+name)
-  }
-  );
-
-  folderImage.map(async(path) =>{
-    await prisma.image.create({
-      data:{
-        image_name:path,
-        product_id:product.id
+export default async (req, res) => {
+  if (req.method === "POST") {
+    upload.single("product_img")(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({ error: err.message });
       }
-    })
+      const { product_name, product_price, product_desc } = req.body;
+      const product_img = `/uploads/${req.file.filename}`;
+      const product = await prisma.product.create({
+        data: {
+          product_name,
+          product_price: parseInt(product_price),
+          product_desc,
+          product_img,
+        },
+      });
+      return res.status(200).json(product);
+    });
   }
-  );
-
-  let folder = './public/upload_'+product.id+'/';
-
-  fs.mkdir(folder, { recursive: true }, (err) => {
-    return console.log(err);
-  });
-
-  return res.json(folder);
-}
+};

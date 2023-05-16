@@ -57,8 +57,9 @@ model order {
   shipping   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
-  product    product  @relation(fields: [product_id], references: [id]) 
-  @@index([product_id], map: "Order_product_id_fkey")
+  product    product  @relation(fields: [product_id], references: [id])
+  user       user     @relation(fields: [user_id], references: [id])
+  
 }
 
 model user {
