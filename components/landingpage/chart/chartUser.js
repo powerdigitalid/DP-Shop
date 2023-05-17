@@ -6,33 +6,51 @@ import { useRouter } from "next/router";
 
 export default function Chart() {
     const { data: session, status } = useSession();
-    //api chart by user_google "/api/order/getUserCart?user_google=" + session.user.email
+    //tampilan dari button chart ditopbar berdasarkan user.email/user_google
+    const [data, setData] = useState([]);
     const [cart, setCart] = useState([]);
-    const router = useRouter();
+    const [total, setTotal] = useState(0);
+    const [quantity, setQuantity] = useState(0);
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch("/api/order/getUserCart?user_google=" + session.user.email);
-            const data = await res.json();
-            setCart(data);
+            if (session && session.user) {
+                const res = await fetch("/api/order/getUserCart?user_google=" + session.user.email);
+                const data = await res.json();
+                setCart(data);
+                //setTotal perkalian antara harga dan quantity
+                setTotal(data.reduce((total, item) => total + item.total, 0));
+                //setQuantity penjumlahan antara quantity
+                setQuantity(data.reduce((total, item) => total + item.quantity, 0));
+            }
         };
         fetchData();
     }, [session]);
-    // if (status === "loading") {
-    //     return <h1>Loading...</h1>;
-    // }
-    // if (status === "unauthenticated") {
-    //     signIn();
-    //     return <h1>Loading...</h1>;
-    // }
-    // if (status === "authenticated") {
-    //     if (session.user.role === "admin") {
-    //         router.push("/admin");
-    //     }
-    // } else {
-    //     router.push("/");
-    // }
 
+    const handleQuantity = async (id, quantity) => {
+        const res = await fetch("/api/order/updateCart", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: id,
+                quantity: quantity,
+            }),
+        });
+        const data = await res.json();
+        setCart(data);
+        setTotal(data.reduce((total, item) => total + item.total, 0));
+        setQuantity(data.reduce((total, item) => total + item.quantity, 0));
+    };
 
+    const router = useRouter();
+    const handleCheckout = () => {
+        if (session) {
+            router.push("/checkout");
+        } else {
+            signIn();
+        }
+    };
 
   return (
     <div className="container-fluid pt-5" id="chart">
@@ -48,6 +66,7 @@ export default function Chart() {
                 <th>Remove</th>
               </tr>
             </thead>
+            {cart.length > 0 && cart.map((carts) => (
             <tbody className="align-middle">
               <tr>
                 <td className="align-middle">
@@ -56,9 +75,9 @@ export default function Chart() {
                     alt
                     style={{ width: 50 }}
                   />{" "}
-                  {cart.product_name}
+                  {carts.product.product_name}
                 </td>
-                <td className="align-middle">{cart.product_price}</td>
+                <td className="align-middle">{carts.product.product_price}</td>
                 <td className="align-middle">
                   <div
                     className="input-group quantity mx-auto"
@@ -73,7 +92,7 @@ export default function Chart() {
                       type="text"
                       className="form-control form-control-sm bg-secondary text-center"
                       defaultValue={1}
-                      value={cart.quantity}
+                      value={carts.quantity}
                     />
                     <div className="input-group-btn">
                       <button className="btn btn-sm btn-primary btn-plus">
@@ -82,7 +101,7 @@ export default function Chart() {
                     </div>
                   </div>
                 </td>
-                <td className="align-middle">{cart.total}</td>
+                <td className="align-middle">{carts.total}</td>
                 <td className="align-middle">
                   <button className="btn btn-sm btn-primary">
                     <i className="fa fa-times" />
@@ -91,6 +110,7 @@ export default function Chart() {
               </tr>
               
             </tbody>
+            ))}
           </table>
         </div>
         <div className="col-lg-4">

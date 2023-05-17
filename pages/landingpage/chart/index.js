@@ -27,6 +27,5 @@ export default function Index() {
       text: "You must login first!",
     });
     router.push("/landingpage/login");
-    return null;
   }
 }
