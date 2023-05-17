@@ -1,24 +1,48 @@
 import { prisma } from "../../../libs/prisma.libs";
+import path from "path";
+import multer from "multer";
 
-export default function handler(req, res) {
-    prisma.product.update({
-        where: {
-            id: req.body.id,
-        },
-        data: {
-            product_name: req.body.product_name,
-            product_price: req.body.product_price,
-            product_desc: req.body.product_desc,
-            product_img: req.body.product_img,
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: "./public/uploads",
+        filename: (req, file, cb) => {
+            const ext = path.extname(file.originalname);
+            const name = path.basename(file.originalname, ext);
+            cb(null, `${name}-${Date.now()}${ext}`);
         }
-    }).then((produk) => {
-        res.status(200).json({
-            message: "Produk updated!",
-            data: produk,
+    }),
+    limits: {
+        fileSize: 10000000, // 1 MB
+    },
+});
+
+//how to update product
+export default async (req, res) => {
+    if (req.method === "PUT") {
+        upload.single("product_img")(req, res, async (err) => {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            const { id, product_name, product_price, product_desc } = req.body;
+            const product_img = `/uploads/${req.file.filename}`;
+            const product = await prisma.product.update({
+                where: {
+                    id: parseInt(id),
+                },
+                data: {
+                    product_name,
+                    product_price: parseInt(product_price),
+                    product_desc,
+                    product_img,
+                },
+            });
+            return res.status(200).json(product);
         });
-    }).catch((error) => {
-        res.status(500).json({
-            message: error.message || "Error occured! Please contact the admin for more information.",
-        });
-    });
+    }
 }

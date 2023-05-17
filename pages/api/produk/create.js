@@ -20,7 +20,7 @@ const upload = multer({
     }
   }),
   limits: {
-    fileSize: 1000000, // 1 MB
+    fileSize: 10000000, // 1 MB
   },
 });
 

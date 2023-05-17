@@ -15,41 +15,38 @@ model product {
   product_desc  String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
+  cart          Cart[]
+  order         order[]
 }
 
-model Cart{
-  Id Int @id @default(autoincrement())
-  product product @relation(fields: [ProductId], references: [Id])
-  product_id Int
-  user_google 
-  product_id Int
+model Cart {
+  Id            Int      @id @default(autoincrement())
+  product      product  @relation(fields: [product_id], references: [id])
+  product_id    Int
+  user_google   String
   product_price Int
-  quantity   Int
-  total      Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
-  
+  quantity      Int
+  total         Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 }
-
 
 model order {
-  id         Int      @id @default(autoincrement())
-  user_id    Int
-  product_id Int
-  price      Int
-  order_date DateTime
-  quantity   Int
-  total      Int
-  address    String?
-  expedisi   String
-  subtotal   Int
-  shipping   Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
-  product product @relation(fields: [ProductId], references: [Id])
-  product_id Int
-  user_google
-  
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  price       Int
+  order_date  DateTime
+  quantity    Int
+  total       Int
+  address     String?
+  expedisi    String
+  subtotal    Int
+  shipping    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  product     product @relation(fields: [product_id], references: [id])
+  product_id  Int
+  user_google String
 }
 
 model user {

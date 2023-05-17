@@ -29,7 +29,20 @@ export default function AllProducts() {
             });
     };
 
-    
+    const handleDelete = (id) => {
+        fetch(`/api/produk/delete?id=${id}`, {
+            method: "DELETE",
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            if (res.data) {
+                alert("delete oke")
+                handleProduct();
+            } else {
+                alert("Gagal menghapus produk");
+            }
+        })
+    };
 
     useEffect(() => {
         handleProduct();
@@ -65,7 +78,7 @@ export default function AllProducts() {
                         </div>
                         <div className="col-md-4">
                             <Link href="/admin/formprodukpages/editproduk" className="btn btn-primary rounded mr-2 text-white">Edit</Link>
-                            <button className="btn btn-danger rounded">Hapus</button>
+                            <button className="btn btn-danger rounded" onClick={() => handleDelete(prod.id)}>Delete</button>
                         </div>
                     </div>
                     <p className="m4b-">

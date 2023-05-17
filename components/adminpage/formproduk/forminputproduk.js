@@ -1,72 +1,43 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {getCookie} from '../../../libs/cookie.lib.js'
 
 export default function FormInputProduct() {
-  const [image, setImage] = useState("");
-  const [nameProduct, setNameProduct] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productDesc, setProductDesc] = useState("");
+  const [productImg, setProductImg] = useState(null);
 
-  const router = useRouter();
-
-  const handleUploadImage = (e) => {
-    let file = e.target.files[0];
-    let formData = new FormData();
-    formData.append("image", file);
-    fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.data) {
-          alert("Upload image success");
-          setImage(res.data);
-        } else {
-          alert("Upload image failed");
-        }
-      })
-      .catch((error) => {
-        console.error("Error uploading image: ", error);
-        alert("Upload image failed");
-      });
-  };
-
-
-  const clearData = () => {
-    setImage("");
-    setNameProduct("");
-    setPrice("");
-    setDescription("");
+  const handleProductImgChange = (e) => {
+    setProductImg(e.target.files[0]);
   };
 
   const handleAddProduct = (e) => {
     e.preventDefault();
-    const dataProduct = {
-      product_img: image,
-      product_name: nameProduct,
-      product_price: price,
-      product_desc: description,
-    };
+
+    const formData = new FormData();
+    formData.append("product_name", productName);
+    formData.append("product_price", productPrice);
+    formData.append("product_desc", productDesc);
+    formData.append("product_img", productImg);
+
     fetch("/api/produk/create", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Auth-Token": getCookie("token"),
-      },
-      body: JSON.stringify(dataProduct),
+      body: formData,
     })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.data) {
-          alert("Add product success");
-          clearData();
-          router.push("/adminpage/produk");
-        } else {
-          alert("Add product failed");
-        }
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Handle response data
+        // Clear form fields
+        alert("Data berhasil diinput")
+        setProductName("");
+        setProductPrice("");
+        setProductDesc("");
+        setProductImg(null);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("error")
       });
   };
 
@@ -83,7 +54,7 @@ export default function FormInputProduct() {
             <div className="author-box-left">
               <img
                 alt="image"
-                src={image ? image : "/dioshop.png"}
+                src= {`/upload/${productImg}`}
                 className="rounded-circle author-box-picture"
                 style={{ width: "100px", height: "100px" }}
               />
@@ -93,7 +64,7 @@ export default function FormInputProduct() {
                   type="file"
                   className="custom-file-input form-control-sm"
                   id="customFile"
-                  onChange={handleUploadImage}
+                  onChange={handleProductImgChange}
                 />
                 <label className="custom-file-label" htmlFor="customFile">
                   Choose file
@@ -110,8 +81,8 @@ export default function FormInputProduct() {
                         type="text"
                         className="form-control form-control-sm"
                         placeholder="Nama Produk"
-                        value={nameProduct}
-                        onChange={(e) => setNameProduct(e.target.value)}
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
                       />
                     </div>
                     <div className="form-group col-sm-6">
@@ -124,8 +95,8 @@ export default function FormInputProduct() {
                           type="text"
                           className="form-control form-control-sm"
                           aria-label="Rupiah"
-                          value={price}
-                          onChange={(e) => setPrice(e.target.value)}
+                          value={productPrice}
+                          onChange={(e) => setProductPrice(e.target.value)}
                         />
                         <div className="input-group-append">
                           <span className="form-control form-control-sm">.00</span>
@@ -140,8 +111,8 @@ export default function FormInputProduct() {
                         class="form-control"
                         id="exampleFormControlTextarea1"
                         rows="3"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={productDesc}
+                        onChange={(e) => setProductDesc(e.target.value)}
                       />
                     </div>
                   </div>
@@ -149,7 +120,7 @@ export default function FormInputProduct() {
               </div>
               <div className="mb-2 mt-3">
                 <div className="row float-right">
-                  <button className="btn btn-success">
+                  <button className="btn btn-success" type="submit">
                     <i className="fas fa-plus fa-fw "></i> Tambah
                   </button>
                 </div>
