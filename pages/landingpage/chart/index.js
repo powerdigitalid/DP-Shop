@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Layout from "../../../components/landingpage/utils/layout";
-import ChartComponent from "../../../components/landingpage/chart/chart";
+import ChartComponent from "../../../components/landingpage/chart/chartUser";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from 'next/router'
 import Swal from "sweetalert2";
@@ -22,14 +22,11 @@ export default function Index() {
     );
   } else {
     Swal.fire({
-      title: "Please Login First",
       icon: "error",
-      confirmButtonText: "OK",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        router.push("/");
-      }
-    }
-    );
+      title: "Oops...",
+      text: "You must login first!",
+    });
+    router.push("/landingpage/login");
+    return null;
   }
 }

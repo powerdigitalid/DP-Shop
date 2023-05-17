@@ -7,8 +7,7 @@ import {useRouter} from "next/router";
 
 export default function TrendProduct() {
   const { data: session, status } = useSession();
-  const [user, setUser] = useState(null);
-  const [cart, setCart] = useState({orders: 0});
+  const [cart, setCart] = useState({});
   const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -35,33 +34,40 @@ export default function TrendProduct() {
     };
 
     //add handle button add to cart produk and user session
-    const handleAddToCart = (product_id) => {
+    const handleAddToCart = (id,product_price,product_name) => {
       if (session) {
-          fetch('/api/order/cart', {
-              method: "POST",
-              body: JSON.stringify({
-                  product_id: product_id,
-                  customer_id: session.id,
-                  product_price: 0,
-              }),
-              headers: {
-                  "Content-Type": "application/json",
-              },
+        //how to fetch data product_id and product_price product
+        fetch("/api/order/cart", {
+          method: "POST",
+          body: JSON.stringify({
+            user_google: session.user.email,
+            product_id: id,
+            product_name: product_name,
+            product_price: product_price,
+            quantity: 1,
+            total: product_price ,
+        }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.data) {
+              alert("Product added to cart");
+              setCart(res.data);
+              router.push("/landingpage/chart");
+            } else {
+              setCart({ orders: 0 });
+            }
           })
-              .then((res) => res.json())
-              .then((res) => {
-                  if (res.data) {
-                      alert("Produk berhasil ditambahkan ke keranjang");
-                  } else {
-                      alert("Produk gagal ditambahkan ke keranjang");
-                  }
-              })
-              .catch((err) => {
-                  console.log(err);
-                  alert("Produk gagal ditambahkan ke keranjang");
-              });
+          .catch((err) => {
+            alert("Product failed to add to cart");
+            console.log(err);
+            setCart({ orders: 0 });
+          });
       } else {
-          signIn();
+        signIn("google");
       }
   };
 
@@ -99,7 +105,7 @@ export default function TrendProduct() {
                 <i className="fas fa-eye text-primary mr-1" />
                 View Detail
               </Link>
-              <a href className="btn btn-sm text-dark p-0" onClick={() => handleAddToCart(prod.product_id)}>
+              <a href className="btn btn-sm text-dark p-0" onClick={() => handleAddToCart(prod.id, prod.product_price, prod.product_name)}>
                 <i className="fas fa-shopping-cart text-primary mr-1"/> 
                 Add to Cart
               </a>

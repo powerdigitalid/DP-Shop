@@ -4,9 +4,42 @@ import { useState, useEffect } from "react";
 
 export default function Topbar() {
   const { data: session, status } = useSession();
-  const [user, setUser] = useState(null);
-  const [cart, setCart] = useState({orders: 0});
-  const [loading, setLoading] = useState(false);
+  //button cart by user_google
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `/api/order/getUserCart?user_google=${session.user.email}`
+      );
+      const data = await res.json();
+      setCart(data);
+      let total = 0;
+      let quantity = 0;
+      data.map((item) => {
+        total += item.total;
+        quantity += item.quantity;
+      });
+      setTotal(total);
+      setQuantity(quantity);
+    };
+    fetchData();
+  }, [session]);
+  // if (status === "loading") {
+  //   return <h1>Loading...</h1>;
+  // }
+  // if (status === "unauthenticated") {
+  //   signIn();
+  //   return <h1>Loading...</h1>;
+  // }
+  // if (status === "authenticated") {
+  //   if (session.user.role === "admin") {
+  //     router.push("/admin");
+  //   } else {
+  //     router.push("/");
+  //   }
+  // }
 
 
 
@@ -67,9 +100,9 @@ export default function Topbar() {
             </form> */}
           </div>
           <div className="col-lg-3 col-6 text-right">
-            <Link href="/landingpage/chart#chart" className="btn border">
+            <Link href="/landingpage/chart" className="btn border">
               <i className="fas fa-shopping-cart text-primary" />
-              <span className="badge"> {cart.orders} </span>
+              <span className="badge"> {quantity} </span>
             </Link>
           </div>
         </div>
