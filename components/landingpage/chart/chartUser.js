@@ -11,46 +11,39 @@ export default function Chart() {
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
     const [quantity, setQuantity] = useState(0);
+    const router = useRouter();
     useEffect(() => {
         const fetchData = async () => {
             if (session && session.user) {
-                const res = await fetch("/api/order/getUserCart?user_google=" + session.user.email);
+                const res = await fetch("/api/chart/getUserCart?user_google=" + session.user.email);
                 const data = await res.json();
                 setCart(data);
-                //setTotal perkalian antara harga dan quantity
-                setTotal(data.reduce((total, item) => total + item.total, 0));
-                //setQuantity penjumlahan antara quantity
-                setQuantity(data.reduce((total, item) => total + item.quantity, 0));
+                if (data && data.quantity && data.product && data.product.product_price) {
+                    setTotal(data.quantity * parseInt(data.product.product_price));
+                }
             }
         };
         fetchData();
     }, [session]);
 
-    const handleQuantity = async (id, quantity) => {
-        const res = await fetch("/api/order/updateCart", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                id: id,
-                quantity: quantity,
-            }),
+    //delete cart
+
+
+    const handleDelete = async (id) => {
+        const res = await fetch("/api/chart/delete?id=" + id, {
+            method: "DELETE",
         });
         const data = await res.json();
         setCart(data);
-        setTotal(data.reduce((total, item) => total + item.total, 0));
-        setQuantity(data.reduce((total, item) => total + item.quantity, 0));
-    };
-
-    const router = useRouter();
-    const handleCheckout = () => {
-        if (session) {
-            router.push("/checkout");
+        if (data) {
+            alert("delete oke")
         } else {
-            signIn();
+            alert("Gagal menghapus produk");
         }
     };
+  
+
+    
 
   return (
     <div className="container-fluid pt-5" id="chart">
@@ -95,7 +88,7 @@ export default function Chart() {
                       value={carts.quantity}
                     />
                     <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-plus">
+                      <button className="btn btn-sm btn-primary btn-plus" >
                         <i className="fa fa-plus" />
                       </button>
                     </div>
@@ -103,7 +96,7 @@ export default function Chart() {
                 </td>
                 <td className="align-middle">{carts.total}</td>
                 <td className="align-middle">
-                  <button className="btn btn-sm btn-primary">
+                  <button className="btn btn-sm btn-primary" onClick={() => handleDelete(carts.id)}>
                     <i className="fa fa-times" />
                   </button>
                 </td>
@@ -121,13 +114,13 @@ export default function Chart() {
             <div className="card-body">
               <div className="d-flex justify-content-between mb-3 pt-1">
                 <h6 className="font-weight-medium">Total</h6>
-                <h6 className="font-weight-medium">Rp. 600.000</h6>
+                <h6 className="font-weight-medium">Rp.{total}</h6>
               </div>
             </div>
             <div className="card-footer border-secondary bg-transparent">
               <div className="d-flex justify-content-between mt-2">
-                <h5 className="font-weight-bold">Total</h5>
-                <h5 className="font-weight-bold">Rp. 635.000</h5>
+                <h5 className="font-weight-bold">Total Semua</h5>
+                <h5 className="font-weight-bold">Rp. {total}</h5>
               </div>
               <button className="btn btn-block btn-primary my-3 py-3">
                 Proceed To Checkout

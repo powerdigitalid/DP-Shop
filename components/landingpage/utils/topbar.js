@@ -11,11 +11,9 @@ export default function Topbar() {
   useEffect(() => {
     const fetchData = async () => {
       if(session && session.user){
-        const res = await fetch("/api/order/getUserCart?user_google=" + session.user.email);
+        const res = await fetch("/api/chart/getUserCart?user_google=" + session.user.email);
         const data = await res.json();
         setCart(data);
-        setTotal(data.reduce((total, item) => total + item.total, 0));
-        setQuantity(data.reduce((total, item) => total + item.quantity, 0));
       }
     };
     fetchData();

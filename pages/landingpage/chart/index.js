@@ -26,6 +26,6 @@ export default function Index() {
       title: "Oops...",
       text: "You must login first!",
     });
-    router.push("/landingpage/login");
+    signIn();
   }
 }
