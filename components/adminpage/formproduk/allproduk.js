@@ -77,7 +77,7 @@ export default function AllProducts() {
                             <h3 className="font-weight-semi-bold mb-4">{prod.product_desc}</h3>
                         </div>
                         <div className="col-md-4">
-                            <Link href="/admin/formprodukpages/editproduk" className="btn btn-primary rounded mr-2 text-white">Edit</Link>
+                            <Link href={`/admin/formprodukpages/editproduk?id=${prod.id}`} className="btn btn-primary rounded mr-2 text-white">Edit</Link>
                             <button className="btn btn-danger rounded" onClick={() => handleDelete(prod.id)}>Delete</button>
                         </div>
                     </div>

@@ -8,6 +8,7 @@ import {useRouter} from "next/router";
 export default function TrendProduct() {
   const { data: session, status } = useSession();
   const [cart, setCart] = useState({});
+  const [order, setOrder] = useState([]);
   const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -32,7 +33,7 @@ export default function TrendProduct() {
                 setError(err);
             });
     };
-
+ 
     //add handle button add to cart produk and user session
     const handleAddToCart = (id,product_price,product_name) => {
       if (session) {
@@ -70,6 +71,8 @@ export default function TrendProduct() {
         signIn("google");
       }
   };
+
+
 
     useEffect(() => {
         handleProduct();

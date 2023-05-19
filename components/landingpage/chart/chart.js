@@ -1,6 +1,39 @@
 import React from "react";
-
+import { useState, useEffect } from "react";
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+ 
 export default function Chart() {
+  //create data order from api/order/create
+  const { data: session, status } = useSession();
+  const [order, setOrder] = useState([]);
+  const [total, setTotal] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (session && session.user) {
+        const res = await fetch(
+          "/api/order/orderGetUser?user_google=" + session.user.email
+        );
+        const data = await res.json();
+        setOrder(data);
+        if (data && data.length > 0) {
+          calculateTotal(data);
+        }
+      }
+    };
+    fetchData();
+  }, [session]);
+
+  const calculateTotal = (orderData) => {
+    let totalAmount = 0;
+    orderData.forEach((item) => {
+      totalAmount += item.total;
+    });
+    setTotal(totalAmount);
+  };
+
   return (
     <div className="container-fluid pt-5" id="chart">
       <div className="row px-xl-5">
@@ -15,6 +48,7 @@ export default function Chart() {
                 <th>Remove</th>
               </tr>
             </thead>
+            
             <tbody className="align-middle">
               <tr>
                 <td className="align-middle">

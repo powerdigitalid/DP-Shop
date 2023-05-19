@@ -29,20 +29,25 @@ export default async (req, res) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
-            const { id, product_name, product_price, product_desc } = req.body;
+            const {product_name, product_price, product_desc } = req.body;
             const product_img = `/uploads/${req.file.filename}`;
-            const product = await prisma.product.update({
+            const id = req.query.id;
+            const updateProduct = await prisma.product.update({
                 where: {
                     id: parseInt(id),
                 },
                 data: {
-                    product_name,
+                    product_name: product_name,
                     product_price: parseInt(product_price),
-                    product_desc,
-                    product_img,
+                    product_desc: product_desc,
+                    product_img: product_img,
                 },
             });
-            return res.status(200).json(product);
-        });
+            if (updateProduct) {
+                res.status(200).json({ data: updateProduct });
+            }
+        }); 
+    } else {
+        res.status(405).json({ message: "Method not allowed" });
     }
-}
+};

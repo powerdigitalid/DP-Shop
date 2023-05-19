@@ -1,5 +1,74 @@
-
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 export default function Editproduct() {
+  const router = useRouter();
+  //update product
+  const [product, setProduct] = useState({
+    product_name: "",
+    product_price: "",
+    product_desc: "",
+    product_img: "",
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [image, setImage] = useState(null);
+  const { id } = router.query;
+
+  const handleProduct = () => {
+    fetch(`/api/produk/${id}`, {
+      method: "PUT",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          setProduct(res.data);
+        } else {
+          setProduct([]);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setError(err);
+      });
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("product_name", product.product_name);
+    formData.append("product_price", product.product_price);
+    formData.append("product_desc", product.product_desc);
+    formData.append("product_img", image);
+    fetch(`/api/produk/update?id=${id}`, {
+      method: "PUT",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Produk berhasil diupdate",
+          });
+          router.push("/adminpage/allproduk");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "Produk gagal diupdate",
+          });
+        }
+      });
+  };
+
+  useEffect(() => {
+    handleProduct();
+  }, []);
+
     return (
       <>
         <div className="card author-box card-primary">
@@ -24,6 +93,8 @@ export default function Editproduct() {
                     type="file"
                     className="custom-file-input form-control-sm"
                     id="customFile"
+                    onChange={(e) => setImage(e.target.files[0])}
+
                   />
                   <label className="custom-file-label" htmlFor="customFile">
                     Choose file
@@ -39,6 +110,14 @@ export default function Editproduct() {
                         <input
                           type="text"
                           className="form-control form-control-sm"
+                          placeholder="Nama Produk"
+                          value={product.product_name}
+                          onChange={(e) =>
+                            setProduct({
+                              ...product,
+                              product_name: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div className="form-group col-sm-6">
@@ -51,6 +130,14 @@ export default function Editproduct() {
                             type="text"
                             className="form-control form-control-sm"
                             aria-label="Rupiah"
+                            placeholder="Harga"
+                            value={product.product_price}
+                            onChange={(e) =>
+                              setProduct({
+                                ...product,
+                                product_price: e.target.value,
+                              })
+                            }
                           />
                           <div className="input-group-append">
                             <span className="form-control form-control-sm">.00</span>
@@ -63,6 +150,16 @@ export default function Editproduct() {
                         <label>Deskripsi</label>
                         <textarea
                           class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          placeholder="Deskripsi"
+                          value={product.product_desc}
+                          onChange={(e) =>
+                            setProduct({
+                              ...product,
+                              product_desc: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
