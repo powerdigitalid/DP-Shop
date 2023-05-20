@@ -8,19 +8,20 @@ export default async (req, res) => {
                 user_google: user_google,
             },
             select: {
+                user_google: true,
                 order_date: true,
                 quantity: true,
                 total: true,
-                expedisi: true,
-                subtotal: true,
-                addres: true,
-                shipping: true,
                 cart: {
                     select: {
                         product_name: true,
                         product_price: true,
                     }
                 },
+                expedisi: true,
+                subtotal: true,
+                addres: true,
+                shipping: true,
             }
         });
         return res.status(200).json(order);
