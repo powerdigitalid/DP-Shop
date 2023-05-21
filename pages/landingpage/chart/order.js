@@ -9,23 +9,23 @@ export default function Index() {
   const { data: session, status } = useSession();
   const router = useRouter()
 
-  if (session) {
+  // if (session) {
     return (
       <>
         <Head>
-          <title>Order by {session.user.name}</title>
+          <title>Order by</title>
         </Head>
         <Layout>
           <ChartComponent />
         </Layout>
       </>
     );
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "You must login first!",
-    });
-    signIn();
-  }
+  // } else {
+  //   Swal.fire({
+  //     icon: "error",
+  //     title: "Oops...",
+  //     text: "You must login first!",
+  //   });
+  //   signIn();
+  // }
 }

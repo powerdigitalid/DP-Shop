@@ -4,35 +4,41 @@ import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
  
 export default function Chart() {
-  //create data order from api/order/create
   const { data: session, status } = useSession();
-  const [order, setOrder] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [order, setOrder] = useState({});
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (session && session.user) {
-        const res = await fetch(
-          "/api/order/orderGetUser?user_google=" + session.user.email
-        );
-        const data = await res.json();
+  const handleOrder = () => {
+    fetch("/api/order/orderGetUser", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_google: session.user.email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
         setOrder(data);
-        if (data && data.length > 0) {
-          calculateTotal(data);
-        }
-      }
-    };
-    fetchData();
-  }, [session]);
-
-  const calculateTotal = (orderData) => {
-    let totalAmount = 0;
-    orderData.forEach((item) => {
-      totalAmount += item.total;
-    });
-    setTotal(totalAmount);
+        setData(data.cart);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
   };
+
+  useEffect(() => {
+    if (session && session.user) {
+      handleOrder();
+    }
+  }, [session]);
+  
 
   return (
     <div className="container-fluid pt-5" id="chart">

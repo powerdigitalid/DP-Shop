@@ -1,8 +1,15 @@
 import { prisma } from "../../../libs/prisma.libs";
 
 export default function handler(req, res) {
-  prisma.order
-    .findMany()
+  prisma.order.findMany({
+    include: {
+      cart: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  })
     .then((orders) => {
       res.status(200).json({
         message: "All orders",

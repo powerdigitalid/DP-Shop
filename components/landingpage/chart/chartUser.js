@@ -6,7 +6,10 @@ import { useRouter } from "next/router";
 export default function Chart() {
   const { data: session, status } = useSession();
   const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [totals, setTotals] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,47 +33,26 @@ export default function Chart() {
     cartData.forEach((item) => {
       totalAmount += item.total;
     });
-    setTotal(totalAmount);
+    setTotals(totalAmount);
   };
 
-  const handleQuantityChange = async (id, quantity) => {
-    try {
-      const res = await fetch("/api/chart/update", {
-        method: "PUT", 
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Id: id,
-          quantity: quantity,
-          user_google: session.user.email,
-        }),
-      });
-      const data = await res.json();
-      setCart(data);
-      calculateTotal(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (id) => {
-    try {
-      const res = await fetch("/api/chart/delete?id=" + id, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      setCart(data);
-      calculateTotal(data);
-      alert("Product deleted successfully");
-    } catch (error) {
-      alert("Failed to delete product");
-      console.log(error);
-    }
+    fetch(`/api/chart/delete?id=${id}`, {
+      method: "DELETE",
+    })
+    .then((res)=> res.json())
+    .then((res) => {
+      if (res.data) {
+        alert("delete oke")
+      } else {
+        alert("Gagal menghapus produk");
+      }
+    })
   };
 
-  //handle button add checkout to all cart produk and user session
   
+
 
   return (
     <div className="container-fluid pt-5" id="chart">
@@ -89,26 +71,22 @@ export default function Chart() {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((carts) => (
-                  <tr key={carts.id}>
+                {cart.map((item) => (
+                  <tr key={item.id}>
                     <td>
                       <img
                         src="/landingpage/img/product-1.jpg"
                         alt=""
                         style={{ width: 50 }}
                       />
-                      {carts.product.product_name}
+                      {item.product.product_name}
                     </td>
-                    <td>{carts.product.product_price}</td>
+                    <td>{item.product.product_price}</td>
                     <td>
                       <div className="input-group quantity mx-auto">
                         <div className="input-group-btn">
                           <button
                             className="btn btn-sm btn-primary btn-minus"
-                            onClick = {() => handleQuantityChange(
-                              carts.id,
-                              carts.quantity - 1
-                            )}
                           >
                             <i className="fa fa-minus" />
                           </button>
@@ -116,28 +94,23 @@ export default function Chart() {
                         <input
                           type="text"
                           className="form-control form-control-sm bg-secondary text-center"
-                          value={carts.quantity}
+                          value={item.quantity}
                           readOnly
                         />
                         <div className="input-group-btn">
                           <button
                             className="btn btn-sm btn-primary btn-plus"
-                            onClick = {() => handleQuantityChange(
-                              carts.id,
-                              carts.quantity + 1
-                            )}
-
                           >
                             <i className="fa fa-plus" />
                           </button>
                         </div>
                       </div>
                     </td>
-                    <td>{carts.total}</td>
+                    <td>{item.total}</td>
                     <td>
                       <button
                         className="btn btn-sm btn-primary"
-                        onClick={() => handleDelete(carts.id)}
+                        onClick={() => handleDelete(item.id)}
                       >
                         <i className="fa fa-times" />
                       </button>
@@ -155,15 +128,15 @@ export default function Chart() {
               <div className="card-body">
                 <div className="d-flex justify-content-between mb-3 pt-1">
                   <h6 className="font-weight-medium">Total</h6>
-                  <h6 className="font-weight-medium">Rp.{total}</h6>
+                  <h6 className="font-weight-medium">Rp.{totals}</h6>
                 </div>
               </div>
               <div className="card-footer border-secondary bg-transparent">
                 <div className="d-flex justify-content-between mt-2">
                   <h5 className="font-weight-bold">Total Semua</h5>
-                  <h5 className="font-weight-bold">Rp. {total}</h5>
+                  <h5 className="font-weight-bold">Rp. {totals}</h5>
                 </div>
-                <button className="btn btn-block btn-primary my-3 py-3" >
+                <button className="btn btn-block btn-primary my-3 py-3">
                   Proceed To Checkout
                 </button>
               </div>

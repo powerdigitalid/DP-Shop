@@ -60,7 +60,7 @@ export default function Tabelpemesanan() {
                                                 <th scope="row">{index + 1}</th>
                                                 <td>{order.user_google}</td>
                                                 <td>{order.total}</td>
-                                                <td>{order.ekspedisi}</td>
+                                                <td>{order.expedisi}</td>
                                                 <td>
                                                     <Link href="/admin/pemesanan/detail" className="btn btn-primary mr-1 rounded text-white"><i className="far fa-eye mr-1" />Detail</Link>
                                                     <button className="btn btn-success mr-1 rounded text-white"><i className="fas fa-edit mr-1" />Confirmasi</button>

@@ -9,18 +9,19 @@ export default async (req, res) => {
             },
             select: {
                 user_google: true,
+                name_user: true,
                 order_date: true,
-                quantity: true,
-                total: true,
                 cart: {
                     select: {
                         product_name: true,
                         product_price: true,
+                        quantity: true,
+                        total: true,
                     }
                 },
                 expedisi: true,
                 subtotal: true,
-                addres: true,
+                address: true,
                 shipping: true,
             }
         });

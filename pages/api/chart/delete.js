@@ -1,26 +1,16 @@
 import { prisma } from "../../../libs/prisma.libs";
 
 export default async function handler(req, res) {
-  const { id } = req.query;
-  if (id && req.method === "DELETE") {
+    const { id } = req.body;
     try {
-      const cart = await prisma.cart.delete({
-        where: {
-          Id: parseInt(id),
-        },
-      });
-      res.status(201).json({
-        message: "cart deleted successfully",
-        data: cart,
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: error.message || "Internal server error",
-      });
+        const delete_chart = await prisma.cart.delete({
+            where : {
+                id : parseInt(id)
+            }
+        });
+        res.status(200).json(delete_chart);
     }
-  } else {
-    res.status(400).json({
-      message: "please fill all the fields",
-    });
-  }
+    catch (error) {
+        res.status(400).json({message : "Gagal menghapus chart", error : error});
+    } 
 }

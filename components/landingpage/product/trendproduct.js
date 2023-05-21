@@ -8,7 +8,7 @@ import {useRouter} from "next/router";
 export default function TrendProduct() {
   const { data: session, status } = useSession();
   const [cart, setCart] = useState({});
-  const [order, setOrder] = useState([]);
+  // const [order, setOrder] = useState([]);
   const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -55,17 +55,15 @@ export default function TrendProduct() {
           .then((res) => res.json())
           .then((res) => {
             if (res.data) {
-              alert("Product added to cart");
               setCart(res.data);
-              router.push("/landingpage/chart");
+              router.push("/");
             } else {
-              setCart({ orders: 0 });
+              setCart({});
             }
           })
           .catch((err) => {
-            alert("Product failed to add to cart");
             console.log(err);
-            setCart({ orders: 0 });
+            setCart({});
           });
       } else {
         signIn("google");

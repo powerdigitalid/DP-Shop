@@ -1,45 +1,30 @@
 import { prisma } from "../../../libs/prisma.libs";
-
+//update jumlah dan total yang ada pada cart
 export default async function handler(req, res) {
-  if (req.method === "PUT") {
-    const { Id, quantity } = req.body;
+  const { id } = req.query;
+  if (id && req.method === "PUT") {
     try {
-      const updatedCart = await prisma.cart.update({
+      const cart = await prisma.cart.update({
         where: {
-          Id: Id,
+          id: parseInt(id),
         },
         data: {
-          quantity: quantity,
+          quantity: parseInt(req.body.quantity),
+          total: parseInt(req.body.quantity) * parseInt(req.body.product_price),
         },
       });
-
-      const cart = await prisma.cart.findMany({
-        where: {
-          user_google: req.body.user_google,
-        },
-        select: {
-          user_google: true,
-          product: {
-            select: {
-              product_name: true,
-              product_price: true,
-            },
-          },
-          quantity: true,
-          total: true,
-        },
+      res.status(201).json({
+        message: "cart updated successfully",
+        data: cart,
       });
-
-      res.status(200).json(cart);
     } catch (error) {
       res.status(500).json({
-        message: "Internal server error",
-        error: error.message,
+        message: error.message || "Internal server error",
       });
     }
   } else {
     res.status(400).json({
-      message: "Invalid request method",
+      message: "please fill all the fields",
     });
   }
 }
