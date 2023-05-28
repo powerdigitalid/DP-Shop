@@ -19,15 +19,43 @@ export default function Chart() {
           "/api/chart/getUserCart?user_google=" + session.user.email
         );
         const data = await res.json();
-        setCart(data);
         if (data && data.length > 0) {
-          calculateTotal(data);
+          console.log(filterAndSumByProductId(data))
+          setCart(filterAndSumByProductId(data));
+          calculateTotal(filterAndSumByProductId(data));
         }
       }
     };
     fetchData();
   }, [session]);
 
+  const filterAndSumByProductId = (arr) => {
+    let filteredItems = {};
+    arr.forEach(item => {
+      const { id, user_google, product, quantity, total } = item;
+      const productId = product.id;
+      if (filteredItems.hasOwnProperty(productId)) {
+        // Jika product_id sudah ada, tambahkan quantity dan total
+        filteredItems[productId].quantity += quantity;
+        filteredItems[productId].total += total;
+      } else {
+        // Jika product_id belum ada, buat entri baru
+        filteredItems[productId] = {
+          id: product.id,
+          user_google: user_google,
+          product: {
+            id: product.id,
+            product_name: product.product_name,
+            product_price: product.product_price
+          },
+          quantity,
+          total
+        };
+      }
+    });
+    // Mengembalikan array hasil filter dan penjumlahan
+    return Object.values(filteredItems);
+  }
   const calculateTotal = (cartData) => {
     let totalAmount = 0;
     cartData.forEach((item) => {
@@ -37,22 +65,21 @@ export default function Chart() {
   };
 
 
-  const handleDelete = async (id) => {
-    fetch(`/api/chart/delete?id=${id}`, {
+  const handleDelete = (id) => {
+    console.log(id)
+    fetch(`/api/chart/ delete?id=${id}`, {
       method: "DELETE",
     })
-    .then((res)=> res.json())
-    .then((res) => {
-      if (res.data) {
-        alert("delete oke")
-      } else {
-        alert("Gagal menghapus produk");
-      }
-    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          alert("delete oke")
+        } else {
+          alert("Gagal menghapus produk");
+          console.log(res)
+        }
+      })
   };
-
-  
-
 
   return (
     <div className="container-fluid pt-5" id="chart">
