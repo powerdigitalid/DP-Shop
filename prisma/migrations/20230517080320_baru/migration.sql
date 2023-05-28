@@ -34,7 +34,7 @@ ALTER TABLE `order` DROP COLUMN `payment`,
 DROP TABLE `image`;
 
 -- CreateTable
-CREATE TABLE `Cart` (
+CREATE TABLE `cart` (
     `Id` INTEGER NOT NULL AUTO_INCREMENT,
     `product_id` INTEGER NOT NULL,
     `user_google` VARCHAR(191) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE `Cart` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Cart` ADD CONSTRAINT `Cart_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `cart` ADD CONSTRAINT `Cart_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `order` ADD CONSTRAINT `order_cart_id_fkey` FOREIGN KEY (`cart_id`) REFERENCES `Cart`(`Id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `order` ADD CONSTRAINT `order_cart_id_fkey` FOREIGN KEY (`cart_id`) REFERENCES `cart`(`Id`) ON DELETE RESTRICT ON UPDATE CASCADE;

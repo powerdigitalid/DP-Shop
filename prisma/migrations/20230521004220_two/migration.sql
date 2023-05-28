@@ -28,4 +28,4 @@ ALTER TABLE `order` DROP COLUMN `product_name`,
     MODIFY `order_date` DATETIME(3) NULL;
 
 -- AddForeignKey
-ALTER TABLE `order` ADD CONSTRAINT `order_cart_id_fkey` FOREIGN KEY (`cart_id`) REFERENCES `Cart`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `order` ADD CONSTRAINT `order_cart_id_fkey` FOREIGN KEY (`cart_id`) REFERENCES `cart`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
