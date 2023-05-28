@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model product {
+model Product {
   id            Int      @id @default(autoincrement())
   product_name  String
   product_price Int
@@ -20,7 +20,7 @@ model product {
 
 model Cart {
   id            Int      @id @default(autoincrement())
-  product      product  @relation(fields: [product_id], references: [id])
+  product      Product  @relation(fields: [product_id], references: [id])
   product_id    Int
   user_google   String
   product_price Int
@@ -29,10 +29,10 @@ model Cart {
   total         Int
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
-  order         order[]
+  order         Order[]
 }
 
-model order {
+model Order {
   id          Int      @id @default(autoincrement())
   cart        Cart     @relation(fields: [cart_id], references: [id])
   cart_id     Int
@@ -48,7 +48,7 @@ model order {
   updatedAt   DateTime @default(now())
 }
 
-model user {
+model User {
   id        Int      @id @default(autoincrement())
   name      String
   username  String   @unique(map: "User_username_key")
