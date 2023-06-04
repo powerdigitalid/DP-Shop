@@ -6,10 +6,28 @@ import { useRouter } from "next/router";
 export default function Chart() {
   const { data: session, status } = useSession();
   const [order, setOrder] = useState({});
-  const [data, setData] = useState([]);
+  const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const router = useRouter();
+
+  const handleGetCart = () => {
+    fetch("/api/chart/getUserCart?user_google=" + session.user.email, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("haho")
+        console.log({data: data});
+        setCart(data);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
 
   const handleOrder = () => {
     fetch("/api/order/orderGetUser", {
@@ -35,7 +53,7 @@ export default function Chart() {
 
   useEffect(() => {
     if (session && session.user) {
-      handleOrder();
+      handleGetCart();
     }
   }, [session]);
   
@@ -56,7 +74,7 @@ export default function Chart() {
             </thead>
             
             <tbody className="align-middle">
-              <tr>
+              {/* <tr>
                 <td className="align-middle">
                   <img
                     src="/landingpage/img/product-1.jpg"
@@ -172,8 +190,55 @@ export default function Chart() {
                     <i className="fa fa-times" />
                   </button>
                 </td>
-              </tr>
-
+              </tr> */}
+              {cart.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <img
+                        src="/landingpage/img/product-1.jpg"
+                        alt=""
+                        style={{ width: 50 }}
+                      />
+                      {item.product.product_name}
+                    </td>
+                    <td>{item.product.product_price}</td>
+                    <td>
+                      <div className="input-group quantity mx-auto">
+                        <div className="input-group-btn">
+                          <button
+                            className="btn btn-sm btn-primary btn-minus"
+                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity - 1))}
+                          >
+                            <i className="fa fa-minus" />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm bg-secondary text-center"
+                          value={item.quantity}
+                          readOnly
+                        />
+                        <div className="input-group-btn">
+                          <button
+                            className="btn btn-sm btn-primary btn-plus"
+                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity + 1))}
+                          >
+                            <i className="fa fa-plus" />
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{item.total}</td>
+                    <td>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <i className="fa fa-times" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

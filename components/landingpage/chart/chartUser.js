@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import useStore from "../../../store/store";
 
 export default function Chart() {
   const { data: session, status } = useSession();
@@ -56,6 +57,20 @@ export default function Chart() {
     // Mengembalikan array hasil filter dan penjumlahan
     return Object.values(filteredItems);
   }
+
+  const handleUpdateQtybyId = (e, id, quantity) => {
+    e.preventDefault();
+    let newCart = [...cart];
+    let item = newCart.find((item) => item.id === id);
+    item.quantity = quantity;
+    item.total = item.product.product_price * quantity;
+    // replace item in new cart
+    let index = newCart.findIndex((item) => item.id === id);
+    newCart[index] = item;
+    setCart(newCart);
+    calculateTotal(newCart);
+  };
+
   const calculateTotal = (cartData) => {
     let totalAmount = 0;
     cartData.forEach((item) => {
@@ -64,10 +79,9 @@ export default function Chart() {
     setTotals(totalAmount);
   };
 
-
   const handleDelete = (id) => {
     console.log(id)
-    fetch(`/api/chart/ delete?id=${id}`, {
+    fetch(`/api/chart/delete?id=${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -114,6 +128,7 @@ export default function Chart() {
                         <div className="input-group-btn">
                           <button
                             className="btn btn-sm btn-primary btn-minus"
+                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity - 1))}
                           >
                             <i className="fa fa-minus" />
                           </button>
@@ -127,6 +142,7 @@ export default function Chart() {
                         <div className="input-group-btn">
                           <button
                             className="btn btn-sm btn-primary btn-plus"
+                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity + 1))}
                           >
                             <i className="fa fa-plus" />
                           </button>
@@ -163,7 +179,7 @@ export default function Chart() {
                   <h5 className="font-weight-bold">Total Semua</h5>
                   <h5 className="font-weight-bold">Rp. {totals}</h5>
                 </div>
-                <button className="btn btn-block btn-primary my-3 py-3">
+                <button className="btn btn-block btn-primary my-3 py-3" onClick={(e) => {e.preventDefault(); router.push('/landingpage/chart/order')}}>
                   Proceed To Checkout
                 </button>
               </div>

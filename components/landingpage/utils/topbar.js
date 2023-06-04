@@ -14,6 +14,7 @@ export default function Topbar() {
         const res = await fetch("/api/chart/getUserCart?user_google=" + session.user.email);
         const data = await res.json();
         setCart(data);
+        setQuantity(data.reduce((a, b) => a + b.quantity, 0));
       }
     };
     fetchData();
@@ -79,7 +80,7 @@ export default function Topbar() {
           <div className="col-lg-3 col-6 text-right">
             <Link href={`/landingpage/chart?user_google=${session?.user?.email}`} className="btn border">
               <i className="fas fa-shopping-cart text-primary" />
-              <span className="badge"> {cart.length} </span>
+              <span className="badge"> {quantity} </span>
             </Link>
           </div>
         </div>

@@ -9,7 +9,7 @@ export default function Index() {
   const { data: session, status } = useSession();
   const router = useRouter()
 
-  // if (session) {
+  if (session) {
     return (
       <>
         <Head>
@@ -20,12 +20,12 @@ export default function Index() {
         </Layout>
       </>
     );
-  // } else {
-  //   Swal.fire({
-  //     icon: "error",
-  //     title: "Oops...",
-  //     text: "You must login first!",
-  //   });
-  //   signIn();
-  // }
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "You must login first!",
+    });
+    signIn();
+  }
 }
