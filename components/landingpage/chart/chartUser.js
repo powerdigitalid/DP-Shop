@@ -95,6 +95,38 @@ export default function Chart() {
       })
   };
 
+  const handleCheckout = (e) => {
+    e.preventDefault();
+    if (session && session.user) {
+      let insert_data = [];
+      cart.forEach((item) => {
+        data.push({
+          cart_id: item.id,
+          user_google: item.user_google,
+          total: item.total,
+        });
+      });
+      fetch("/api/order/create?type=bulk", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(insert_data),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.data) {
+            // alert("Checkout berhasil");
+            router.push("/landingpage/chart/order");
+          } else {
+            alert("Gagal checkout");
+            console.log(res);
+          }
+        });
+    }
+  }
+
+
   return (
     <div className="container-fluid pt-5" id="chart">
       {/* Render cart items */}
@@ -179,7 +211,7 @@ export default function Chart() {
                   <h5 className="font-weight-bold">Total Semua</h5>
                   <h5 className="font-weight-bold">Rp. {totals}</h5>
                 </div>
-                <button className="btn btn-block btn-primary my-3 py-3" onClick={(e) => {e.preventDefault(); router.push('/landingpage/chart/order')}}>
+                <button className="btn btn-block btn-primary my-3 py-3" onClick={handleCheckout}>
                   Proceed To Checkout
                 </button>
               </div>

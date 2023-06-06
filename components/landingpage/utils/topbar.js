@@ -17,9 +17,10 @@ export default function Topbar() {
         setQuantity(data.reduce((a, b) => a + b.quantity, 0));
       }
     };
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 3000);
   }, [session]);
-
 
   return (
     <>
