@@ -2,6 +2,7 @@ import { prisma } from "../../../libs/prisma.libs";
 
 //create hangle product to cart 
 export default async function handler(req, res) {
+  const { type } = req.query;
   if (req.method === "POST") {
     const { user_google, product_id, product_price, product_name, quantity, total } = req.body;
     prisma.cart.findFirst({
@@ -54,5 +55,30 @@ export default async function handler(req, res) {
             });
         }
       })
+  } else if (type === 'bulk' && req.method === "PUT") {
+    try {
+      const { insert } = req.body;
+      console.log({update: insert})
+      insert.forEach(async (item) => {
+        const { id, quantity, total } = item;
+        await prisma.cart.update({
+          where: {
+            id: parseInt(id),
+          },
+          data: {
+            quantity: parseInt(quantity),
+            total: parseInt(total),
+          },
+        });
+      });
+      res.status(200).json({
+        message: "cart updated successfully",
+        data: insert,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error.message || "Internal server error",
+      });
+    }
   }
 }

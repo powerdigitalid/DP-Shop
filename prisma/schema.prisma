@@ -20,7 +20,7 @@ model Product {
 
 model Cart {
   id            Int      @id @default(autoincrement())
-  product      Product  @relation(fields: [product_id], references: [id])
+  product       Product  @relation(fields: [product_id], references: [id])
   product_id    Int
   user_google   String
   product_price Int
@@ -33,19 +33,19 @@ model Cart {
 }
 
 model Order {
-  id          Int      @id @default(autoincrement())
-  cart        Cart     @relation(fields: [cart_id], references: [id])
+  id          Int       @id @default(autoincrement())
+  cart        Cart      @relation(fields: [cart_id], references: [id])
   cart_id     Int
-  order_date  DateTime?
+  order_date  DateTime @default(now())
   total       Int
   address     String?
   expedisi    String?
   shipping    Int?
   user_google String
   name_user   String?
-  status      String  @default("Belum Bayar")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  status      String    @default("Belum Bayar")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
 }
 
 model User {

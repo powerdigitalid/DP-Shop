@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `order` MODIFY `order_date` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3);

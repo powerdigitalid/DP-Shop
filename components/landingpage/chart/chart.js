@@ -2,14 +2,41 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
- 
+
 export default function Chart() {
   const { data: session, status } = useSession();
   const [order, setOrder] = useState({});
   const [cart, setCart] = useState([]);
+  const [cartTotalPrice, setCartTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const router = useRouter();
+
+  const calculateTotal = (type) => {
+    let total = 0;
+    if (type === "cart") {
+      cart.forEach((item) => {
+        total += item.total;
+      });
+      setCartTotalPrice(total);
+    } else if (type === "order") {
+      total = cartTotalPrice + order.shipping;
+      setOrder({ ...order, total: total });
+    }
+  }
+
+  const handleUpdateQtybyId = (e, id, quantity) => {
+    e.preventDefault();
+    let newCart = [...cart];
+    let item = newCart.find((item) => item.id === id);
+    item.quantity = quantity;
+    item.total = item.product.product_price * quantity;
+    // replace item in new cart
+    let index = newCart.findIndex((item) => item.id === id);
+    newCart[index] = item;
+    setCart(newCart);
+    calculateTotal("cart");
+  };
 
   const handleGetCart = () => {
     fetch("/api/chart/getUserCart?user_google=" + session.user.email, {
@@ -20,8 +47,6 @@ export default function Chart() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("haho")
-        console.log({data: data});
         setCart(data);
       })
       .catch((error) => {
@@ -51,12 +76,51 @@ export default function Chart() {
       });
   };
 
+  const handleSetOrder = (e) => {
+    e.preventDefault();
+    if (session && session.user && order.address) {
+      let insert_data = [];
+      cart.forEach((item) => {
+        insert_data.push({
+          cart_id: item.id,
+          order_date: null,
+          address: order.address,
+          expedisi: order.expedisi,
+          shipping: order.shipping,
+          name_user: session.user.name,
+          user_google: item.user_google,
+          total: cartTotalPrice,
+        });
+      });
+      fetch("/api/order/create?type=bulk", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ insert: insert_data }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.data) {
+            alert('Order berhasil!')
+            router.push("/");
+          } else {
+            alert("Gagal checkout");
+          }
+        });
+    }
+  }
+
   useEffect(() => {
     if (session && session.user) {
-      handleGetCart();
+      if (cart.length === 0) handleGetCart();
+      setTimeout(() => {
+        calculateTotal('cart');
+        calculateTotal('order');
+      }, 1000);
+      setOrder({ ...order});
     }
-  }, [session]);
-  
+  }, [session, order.shipping, cartTotalPrice]);
 
   return (
     <div className="container-fluid pt-5" id="chart">
@@ -72,173 +136,56 @@ export default function Chart() {
                 <th>Remove</th>
               </tr>
             </thead>
-            
+
             <tbody className="align-middle">
-              {/* <tr>
-                <td className="align-middle">
-                  <img
-                    src="/landingpage/img/product-1.jpg"
-                    alt
-                    style={{ width: 50 }}
-                  />{" "}
-                  Colorful Stylish Shirt
-                </td>
-                <td className="align-middle">Rp. 200.000</td>
-                <td className="align-middle">
-                  <div
-                    className="input-group quantity mx-auto"
-                    style={{ width: 100 }}
-                  >
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-minus">
-                        <i className="fa fa-minus" />
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm bg-secondary text-center"
-                      defaultValue={1}
-                    />
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-plus">
-                        <i className="fa fa-plus" />
-                      </button>
-                    </div>
-                  </div>
-                </td>
-                <td className="align-middle">Rp. 200.000</td>
-                <td className="align-middle">
-                  <button className="btn btn-sm btn-primary">
-                    <i className="fa fa-times" />
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td className="align-middle">
-                  <img
-                    src="/landingpage/img/product-2.jpg"
-                    alt
-                    style={{ width: 50 }}
-                  />{" "}
-                  Colorful Stylish Shirt
-                </td>
-                <td className="align-middle">Rp. 200.000</td>
-                <td className="align-middle">
-                  <div
-                    className="input-group quantity mx-auto"
-                    style={{ width: 100 }}
-                  >
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-minus">
-                        <i className="fa fa-minus" />
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm bg-secondary text-center"
-                      defaultValue={1}
-                    />
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-plus">
-                        <i className="fa fa-plus" />
-                      </button>
-                    </div>
-                  </div>
-                </td>
-                <td className="align-middle">Rp. 200.000</td>
-                <td className="align-middle">
-                  <button className="btn btn-sm btn-primary">
-                    <i className="fa fa-times" />
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td className="align-middle">
-                  <img
-                    src="/landingpage/img/product-3.jpg"
-                    alt
-                    style={{ width: 50 }}
-                  />{" "}
-                  Colorful Stylish Shirt
-                </td>
-                <td className="align-middle">Rp. 200.000</td>
-                <td className="align-middle">
-                  <div
-                    className="input-group quantity mx-auto"
-                    style={{ width: 100 }}
-                  >
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-minus">
-                        <i className="fa fa-minus" />
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm bg-secondary text-center"
-                      defaultValue={1}
-                    />
-                    <div className="input-group-btn">
-                      <button className="btn btn-sm btn-primary btn-plus">
-                        <i className="fa fa-plus" />
-                      </button>
-                    </div>
-                  </div>
-                </td>
-                <td className="align-middle">Rp. 200.000</td>
-                <td className="align-middle">
-                  <button className="btn btn-sm btn-primary">
-                    <i className="fa fa-times" />
-                  </button>
-                </td>
-              </tr> */}
               {cart.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <img
-                        src="/landingpage/img/product-1.jpg"
-                        alt=""
-                        style={{ width: 50 }}
-                      />
-                      {item.product.product_name}
-                    </td>
-                    <td>{item.product.product_price}</td>
-                    <td>
-                      <div className="input-group quantity mx-auto">
-                        <div className="input-group-btn">
-                          <button
-                            className="btn btn-sm btn-primary btn-minus"
-                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity - 1))}
-                          >
-                            <i className="fa fa-minus" />
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm bg-secondary text-center"
-                          value={item.quantity}
-                          readOnly
-                        />
-                        <div className="input-group-btn">
-                          <button
-                            className="btn btn-sm btn-primary btn-plus"
-                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity + 1))}
-                          >
-                            <i className="fa fa-plus" />
-                          </button>
-                        </div>
+                <tr key={item.id}>
+                  <td>
+                    <img
+                      src="/landingpage/img/product-1.jpg"
+                      alt=""
+                      style={{ width: 50 }}
+                    />
+                    {item.product.product_name}
+                  </td>
+                  <td>{item.product.product_price}</td>
+                  <td>
+                    <div className="input-group quantity mx-auto">
+                      <div className="input-group-btn">
+                        <button
+                          className="btn btn-sm btn-primary btn-minus"
+                          onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity - 1))}
+                        >
+                          <i className="fa fa-minus" />
+                        </button>
                       </div>
-                    </td>
-                    <td>{item.total}</td>
-                    <td>
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <i className="fa fa-times" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      <input
+                        type="text"
+                        className="form-control form-control-sm bg-secondary text-center"
+                        value={item.quantity}
+                        readOnly
+                      />
+                      <div className="input-group-btn">
+                        <button
+                          className="btn btn-sm btn-primary btn-plus"
+                          onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity + 1))}
+                        >
+                          <i className="fa fa-plus" />
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{item.total}</td>
+                  <td>
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <i className="fa fa-times" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -259,6 +206,7 @@ export default function Chart() {
                   className="custom-control-input"
                   id="color-1"
                   name="color"
+                  onClick={() => setOrder({ ...order, expedisi: 'JNT', shipping: 35000 })}
                 />
                 <label className="custom-control-label" htmlFor="color-1">
                   JNT
@@ -270,6 +218,7 @@ export default function Chart() {
                   className="custom-control-input"
                   id="color-2"
                   name="color"
+                  onClick={() => setOrder({ ...order, expedisi: 'JNE', shipping: 30000 })}
                 />
                 <label className="custom-control-label" htmlFor="color-2">
                   JNE
@@ -278,7 +227,7 @@ export default function Chart() {
             </form>
           </div>
           <h4>Alamat</h4>
-          <input type="text" className="form-control mb-2" placeholder="Alamat Anda" />
+          <input type="text" className="form-control mb-2" placeholder="Alamat Anda" onChange={(e) => setOrder({ ...order, address: e.target.value })} />
           <div className="card border-secondary mb-5">
             <div className="card-header bg-secondary border-0">
               <h4 className="font-weight-semi-bold m-0">Ringkasan Pemesanan</h4>
@@ -286,19 +235,19 @@ export default function Chart() {
             <div className="card-body">
               <div className="d-flex justify-content-between mb-3 pt-1">
                 <h6 className="font-weight-medium">Total</h6>
-                <h6 className="font-weight-medium">Rp. 600.000</h6>
+                <h6 className="font-weight-medium">Rp. {cartTotalPrice}</h6>
               </div>
               <div className="d-flex justify-content-between">
-                <h6 className="font-weight-medium">Pemgiriman</h6>
-                <h6 className="font-weight-medium">Rp. 35.000</h6>
+                <h6 className="font-weight-medium">Pengiriman</h6>
+                <h6 className="font-weight-medium">Rp. {order.shipping}</h6>
               </div>
             </div>
             <div className="card-footer border-secondary bg-transparent">
               <div className="d-flex justify-content-between mt-2">
                 <h5 className="font-weight-bold">Total</h5>
-                <h5 className="font-weight-bold">Rp. 635.000</h5>
+                <h5 className="font-weight-bold">Rp. {order.total? order.total : '-'}</h5>
               </div>
-              <button className="btn btn-block btn-primary my-3 py-3">
+              <button className="btn btn-block btn-primary my-3 py-3" onClick={handleSetOrder}>
                 Proceed To Checkout
               </button>
             </div>

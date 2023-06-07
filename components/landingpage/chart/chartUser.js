@@ -97,26 +97,28 @@ export default function Chart() {
 
   const handleCheckout = (e) => {
     e.preventDefault();
-    if (session && session.user) {
-      let insert_data = [];
-      cart.forEach((item) => {
-        data.push({
-          cart_id: item.id,
-          user_google: item.user_google,
-          total: item.total,
-        });
+    let insert = [];
+    cart.forEach((item) => {
+      insert.push({
+        id: item.id,
+        user_google: session.user.email,
+        product: {...item.product},
+        quantity: item.quantity,
+        total: item.total,
       });
-      fetch("/api/order/create?type=bulk", {
-        method: "POST",
+    });
+    console.log({insert: insert})
+    if (session && session.user) {
+      fetch("/api/order/cart?type=bulk", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(insert_data),
+        body: JSON.stringify({insert: insert}),
       })
         .then((res) => res.json())
         .then((res) => {
           if (res.data) {
-            // alert("Checkout berhasil");
             router.push("/landingpage/chart/order");
           } else {
             alert("Gagal checkout");
