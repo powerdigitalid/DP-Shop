@@ -83,7 +83,7 @@ export default function Chart() {
       cart.forEach((item) => {
         insert_data.push({
           cart_id: item.id,
-          order_date: null,
+          order_date: new Date(),
           address: order.address,
           expedisi: order.expedisi,
           shipping: order.shipping,

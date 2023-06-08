@@ -8,7 +8,7 @@ export default function Tabelhistory() {
     const [error, setError] = useState(false)
 
     const handleOrder = () => {
-        fetch('/api/order/all', {
+        fetch('/api/order/all?status=Sudah Bayar', {
             method: "GET",
         })
             .then((res) => res.json())
@@ -59,7 +59,7 @@ export default function Tabelhistory() {
                                                 <th scope="row">{index + 1}</th>
                                                 <td>{order.user_google}</td>
                                                 <td>{order.total}</td>
-                                                <td>{order.ekspedisi}</td>
+                                                <td>{order.expedisi}</td>
                                                 <td>
                                                     <Link href="/admin/history/detail" className="btn btn-primary mr-1 rounded text-white"><i className="far fa-eye mr-1" />Detail</Link>
                                                     <button className="btn btn-danger rounded text-white"><i className="far fa-trash-alt mr-1" />Hapus</button>
