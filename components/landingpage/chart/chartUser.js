@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import useStore from "../../../store/store";
+import Swal from 'sweetalert2'
+import { fetchData } from "next-auth/client/_utils";
 
 export default function Chart() {
   const { data: session, status } = useSession();
@@ -79,20 +81,25 @@ export default function Chart() {
     setTotals(totalAmount);
   };
 
-  const handleDelete = (id) => {
-    console.log(id)
-    fetch(`/api/chart/delete?id=${id}`, {
+  const handleDelete = (id, user_google) => {
+    fetch(`/api/chart/delete?id=${id}&user_google=${user_google}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("delete oke")
+          alert("Berhasil hapus");
+          fetchData();
         } else {
-          alert("Gagal menghapus produk");
-          console.log(res)
+          alert("Gagal hapus");
+          console.log(res);
         }
-      })
+      });
+  };
+    
+
+  const handleClear = () => {
+    setCart([]);
   };
 
   const handleCheckout = (e) => {
@@ -119,6 +126,8 @@ export default function Chart() {
         .then((res) => res.json())
         .then((res) => {
           if (res.data) {
+            alert("Berhasil checkout");
+            handleClear();
             router.push("/landingpage/chart/order");
           } else {
             alert("Gagal checkout");
@@ -127,7 +136,7 @@ export default function Chart() {
         });
     }
   }
-
+  
 
   return (
     <div className="container-fluid pt-5" id="chart">
@@ -187,7 +196,7 @@ export default function Chart() {
                     <td>
                       <button
                         className="btn btn-sm btn-primary"
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => handleDelete(item.id, item.user_google)}
                       >
                         <i className="fa fa-times" />
                       </button>

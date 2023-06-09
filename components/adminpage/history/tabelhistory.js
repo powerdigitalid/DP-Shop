@@ -61,7 +61,7 @@ export default function Tabelhistory() {
                                                 <td>{order.total}</td>
                                                 <td>{order.expedisi}</td>
                                                 <td>
-                                                    <Link href="/admin/history/detail" className="btn btn-primary mr-1 rounded text-white"><i className="far fa-eye mr-1" />Detail</Link>
+                                                    <Link href={`/admin/history/detail?id=${order.id}`} className="btn btn-primary mr-1 rounded text-white"><i className="far fa-eye mr-1" />Detail</Link>
                                                     <button className="btn btn-danger rounded text-white"><i className="far fa-trash-alt mr-1" />Hapus</button>
                                                 </td>
                                             </tr>

@@ -10,29 +10,22 @@ export default function Detailpemesanan() {
   const router = useRouter()
   const { id } = router.query
 
-  const handleDetail = async (id) => {
+  const handleDetail = async () => {
     try {
-      const res = await fetch(`/api/order/${id}`)
+      const res = await fetch("/api/order/getOrder?id=" + id)
       const json = await res.json()
-      if (json.data) {
-        setData(json.data);
-      } else {
-        setData([]);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-
-      setError(error);
+      if (!res.ok) throw Error(json.message)
+      setData(json.data[0])
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    if (id) {
-      handleDetail(id);
-    }
-  }, [id]);
+    if (id) handleDetail()
+  }, [id])
 
   return (
     <div className="pt-5" id="chart">
@@ -51,14 +44,14 @@ export default function Detailpemesanan() {
               <tr>
                 <td className="align-middle">
                   <img
-                    src={data.cart?.product.product_img}
+                    // src={data.cart.product.product_img}
                     style={{ width: 50 }}
-                  /><br />
-                  <span className="ml-3">{data.cart?.product.product_name}</span>
+                  />
+                  <span className="ml-3">{data.cart?.product?.product_name}</span>
                 </td>
                 <td className="align-middle">Rp.{data.cart?.product?.product_price}</td>
                 <td className="align-middle">{data.cart?.quantity}</td>
-                {/* <td className="align-middle">Rp.{data.cart.total}</td> */}
+                <td className="align-middle">Rp.{data.cart?.total}</td>
               </tr>
 
             </tbody>
@@ -73,11 +66,11 @@ export default function Detailpemesanan() {
           <h5>BRI : ...</h5>
           <h5>BNI : ...</h5>
           <div className="d-flex mb-4 mt-4">
-            <p className="text-dark font-weight-medium mb-0 mr-3">Ekspedisi:{data.expedisi}</p>
+            <p className="text-dark font-weight-medium mb-0 mr-3">Ekspedisi: {data.expedisi}</p>
             
           </div>
-          <h4>Alamat</h4>
-          <p>{data.address}</p>
+          <h6>Alamat</h6>
+          <h4>{data.address}</h4>
           <div className="card border-secondary mb-5">
             <div className="card-header bg-secondary border-0">
               <h4 className="font-weight-semi-bold m-0">Ringkasan Pemesanan</h4>
