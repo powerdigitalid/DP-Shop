@@ -19,7 +19,7 @@ export default function Chart() {
     const fetchData = async () => {
       if (session && session.user) {
         const res = await fetch(
-          "/api/chart/getUserCart?user_google=" + session.user.email
+          `/api/chart/getUserCart?status=Belum Checkout&user_google=` + session.user.email
         );
         const data = await res.json();
         if (data && data.length > 0) {
@@ -100,6 +100,7 @@ export default function Chart() {
 
   const handleClear = () => {
     setCart([]);
+    setTotals(0);
   };
 
   const handleCheckout = (e) => {
@@ -136,6 +137,36 @@ export default function Chart() {
         });
     }
   }
+
+  const handleState = (e,status)=>{
+    e.preventDefault();
+    fetch(
+      "/api/chart/state",
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: status,
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data);
+        } else {
+          console.log(res);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  
+  
   
 
   return (

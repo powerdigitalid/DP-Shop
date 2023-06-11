@@ -1,11 +1,12 @@
 import { prisma } from "../../../libs/prisma.libs";
 
 export default async function handler(req, res) {
-  const { user_google } = req.query;
+  const { user_google , status} = req.query;
   if (req.method === "GET") {
     const cart = await prisma.cart.findMany({
       where: {
         user_google: user_google,
+        status: "Belum Checkout",
       },
       select: {
         id: true,
@@ -19,6 +20,7 @@ export default async function handler(req, res) {
         },
         quantity: true,
         total: true,
+        status: true,
       }
     });
     return res.status(200).json(cart);

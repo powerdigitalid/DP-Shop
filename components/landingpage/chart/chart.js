@@ -75,6 +75,7 @@ export default function Chart() {
         setLoading(false);
       });
   };
+    
 
   const handleSetOrder = (e) => {
     e.preventDefault();
