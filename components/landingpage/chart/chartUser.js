@@ -82,7 +82,7 @@ export default function Chart() {
   };
 
   const handleDelete = (id) => {
-    fetch(`/api/chart/delete?id=${id}&user_google=`+ session.user.email, {
+    fetch(`/api/chart/delete?id=${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -137,34 +137,6 @@ export default function Chart() {
         });
     }
   }
-
-  const handleState = (e,status)=>{
-    e.preventDefault();
-    fetch(
-      "/api/chart/state",
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: status,
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.data) {
-          console.log(res.data);
-        } else {
-          console.log(res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   
   
   
@@ -226,13 +198,13 @@ export default function Chart() {
                     </td>
                     <td>{item.total}</td>
                     <td>
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <i className="fa fa-times" />
-                      </button>
-                    </td>
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <i className="fa fa-times" />
+                    </button>
+                  </td>
                   </tr>
                 ))}
               </tbody>

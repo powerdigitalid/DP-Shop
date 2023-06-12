@@ -76,7 +76,24 @@ export default function Chart() {
       });
   };
     
-
+  const handleState = (e) => {
+    e.preventDefault();
+    fetch("/api/chart/state", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({status: status}),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data);
+        } else {
+          console.log(res);
+        }
+      });
+  }
   const handleSetOrder = (e) => {
     e.preventDefault();
     if (session && session.user && order.address) {
@@ -104,6 +121,7 @@ export default function Chart() {
         .then((res) => {
           if (res.data) {
             alert('Order berhasil!')
+            handleState(e);
             router.push("/");
           } else {
             alert("Gagal checkout");
