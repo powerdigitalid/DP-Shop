@@ -81,8 +81,8 @@ export default function Chart() {
     setTotals(totalAmount);
   };
 
-  const handleDelete = (id, user_google) => {
-    fetch(`/api/chart/delete?id=${id}&user_google=${user_google}`, {
+  const handleDelete = (id) => {
+    fetch(`/api/chart/delete?id=${id}&user_google=`+ session.user.email, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -175,6 +175,7 @@ export default function Chart() {
       {cart.length > 0 ? (
         <div className="row px-xl-5">
           <div className="col-lg-8 table-responsive mb-5">
+            <h3>{cart.length} Items in Cart</h3>
             <table className="table table-bordered text-center mb-0">
               <thead className="bg-secondary text-dark">
                 <tr>
@@ -227,7 +228,7 @@ export default function Chart() {
                     <td>
                       <button
                         className="btn btn-sm btn-primary"
-                        onClick={() => handleDelete(item.id, item.user_google)}
+                        onClick={() => handleDelete(item.id)}
                       >
                         <i className="fa fa-times" />
                       </button>
