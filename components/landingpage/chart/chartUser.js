@@ -1,10 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import useStore from "../../../store/store";
 import Swal from 'sweetalert2'
-import { fetchData } from "next-auth/client/_utils";
+// import { fetchData } from "next-auth/client/_utils";
 
 export default function Chart() {
   const { data: session, status } = useSession();
@@ -16,21 +16,30 @@ export default function Chart() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (session && session.user) {
-        const res = await fetch(
-          `/api/chart/getUserCart?status=Belum Checkout&user_google=` + session.user.email
-        );
-        const data = await res.json();
-        if (data && data.length > 0) {
-          console.log(filterAndSumByProductId(data))
-          setCart(filterAndSumByProductId(data));
-          calculateTotal(filterAndSumByProductId(data));
-        }
-      }
-    };
-    fetchData();
+    if (session && session.user) {
+      fetchData();
+    }
   }, [session]);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `/api/chart/getUserCart?user_google=` + session.user.email
+      );
+      const data = await res.json();
+      console.log(data);
+      if (data && data.length >= 0) {
+        setCart(filterAndSumByProductId(data));
+        calculateTotal(filterAndSumByProductId(data));
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      console.error(error);
+    }
+  };
 
   const filterAndSumByProductId = (arr) => {
     let filteredItems = {};
@@ -44,7 +53,7 @@ export default function Chart() {
       } else {
         // Jika product_id belum ada, buat entri baru
         filteredItems[productId] = {
-          id: product.id,
+          id: id,
           user_google: user_google,
           product: {
             id: product.id,
@@ -88,12 +97,15 @@ export default function Chart() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("Berhasil hapus");
+          Swal.fire("Berhasil hapus");
+          router.replace('/landingpage/chart')
           fetchData();
+          // window.location.reload();
         } else {
-          alert("Gagal hapus");
+          Swal.fire("Gagal hapus");
           console.log(res);
         }
+        // window.location.reload();
       });
   };
     

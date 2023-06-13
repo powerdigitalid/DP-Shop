@@ -1,18 +1,16 @@
 import { prisma } from "../../../libs/prisma.libs";
 
-export default function handler(req, res){
-  prisma.product.findMany().then((product) => {
+export default async function handler(req, res) {
+  try {
+    const products = await prisma.product.findMany();
     res.status(200).json({
-      message: "All product",
-      data : product
+      message: "All products",
+      data: products,
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  ).catch((error) => {
-    res.status(500).json({ error: error.message })
-  }
-  )
 }
-
 // export default function handler(req, res) {
 //   const {status} = req.query;
 //   if(status === "notordered") {
