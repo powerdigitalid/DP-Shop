@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Swal from 'sweetalert2'
 
 export default function FormInputProduct() {
   const [productName, setProductName] = useState("");
@@ -28,8 +29,11 @@ export default function FormInputProduct() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // Handle response data
-        // Clear form fields
-        alert("Data berhasil diinput")
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil menambahkan produk",
+          showConfirmButton: true
+        });
         setProductName("");
         setProductPrice("");
         setProductDesc("");
@@ -37,7 +41,11 @@ export default function FormInputProduct() {
       })
       .catch((error) => {
         console.error(error);
-        alert("error")
+        Swal.fire({
+          icon: "error",
+          title: "Gagal menambahkan produk",
+          showConfirmButton: true
+        })
       });
   };
 

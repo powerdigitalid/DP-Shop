@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import useStore from "../../../store/store";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 // import { fetchData } from "next-auth/client/_utils";
 
 export default function Chart() {
@@ -43,7 +43,7 @@ export default function Chart() {
 
   const filterAndSumByProductId = (arr) => {
     let filteredItems = {};
-    arr.forEach(item => {
+    arr.forEach((item) => {
       const { id, user_google, product, quantity, total } = item;
       const productId = product.id;
       if (filteredItems.hasOwnProperty(productId)) {
@@ -58,16 +58,16 @@ export default function Chart() {
           product: {
             id: product.id,
             product_name: product.product_name,
-            product_price: product.product_price
+            product_price: product.product_price,
           },
           quantity,
-          total
+          total,
         };
       }
     });
     // Mengembalikan array hasil filter dan penjumlahan
     return Object.values(filteredItems);
-  }
+  };
 
   const handleUpdateQtybyId = (e, id, quantity) => {
     e.preventDefault();
@@ -98,7 +98,7 @@ export default function Chart() {
       .then((res) => {
         if (res.data) {
           Swal.fire("Berhasil hapus");
-          router.replace('/landingpage/chart')
+          router.replace("/landingpage/chart");
           fetchData();
           // window.location.reload();
         } else {
@@ -108,7 +108,6 @@ export default function Chart() {
         // window.location.reload();
       });
   };
-    
 
   const handleClear = () => {
     setCart([]);
@@ -122,36 +121,44 @@ export default function Chart() {
       insert.push({
         id: item.id,
         user_google: session.user.email,
-        product: {...item.product},
+        product: { ...item.product },
         quantity: item.quantity,
         total: item.total,
       });
     });
-    console.log({insert: insert})
+    console.log({ insert: insert });
     if (session && session.user) {
       fetch("/api/order/cart?type=bulk", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({insert: insert}),
+        body: JSON.stringify({ insert: insert }),
       })
         .then((res) => res.json())
         .then((res) => {
           if (res.data) {
-            alert("Berhasil checkout");
+            Swal.fire({
+              icon: "success",
+              title: "Checkout Success",
+              text: "Thank you for your order",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             handleClear();
             router.push("/landingpage/chart/order");
           } else {
-            alert("Gagal checkout");
+            Swal.fire({
+              title: "Are you sure?",
+              text: "You want to logout from this session?",
+              icon: "warning",
+              showCancelButton: true,
+            });
             console.log(res);
           }
         });
     }
-  }
-  
-  
-  
+  };
 
   return (
     <div className="container-fluid pt-5" id="chart">
@@ -187,7 +194,9 @@ export default function Chart() {
                         <div className="input-group-btn">
                           <button
                             className="btn btn-sm btn-primary btn-minus"
-                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity - 1))}
+                            onClick={(e) =>
+                              handleUpdateQtybyId(e, item.id, item.quantity - 1)
+                            }
                           >
                             <i className="fa fa-minus" />
                           </button>
@@ -201,7 +210,9 @@ export default function Chart() {
                         <div className="input-group-btn">
                           <button
                             className="btn btn-sm btn-primary btn-plus"
-                            onClick={(e) => handleUpdateQtybyId(e, item.id, (item.quantity + 1))}
+                            onClick={(e) =>
+                              handleUpdateQtybyId(e, item.id, item.quantity + 1)
+                            }
                           >
                             <i className="fa fa-plus" />
                           </button>
@@ -210,13 +221,13 @@ export default function Chart() {
                     </td>
                     <td>{item.total}</td>
                     <td>
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      <i className="fa fa-times" />
-                    </button>
-                  </td>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <i className="fa fa-times" />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -225,7 +236,9 @@ export default function Chart() {
           <div className="col-lg-4">
             <div className="card border-secondary mb-5">
               <div className="card-header bg-secondary border-0">
-                <h4 className="font-weight-semi-bold m-0">Ringkasan Pemesanan</h4>
+                <h4 className="font-weight-semi-bold m-0">
+                  Ringkasan Pemesanan
+                </h4>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between mb-3 pt-1">
@@ -238,7 +251,10 @@ export default function Chart() {
                   <h5 className="font-weight-bold">Total Semua</h5>
                   <h5 className="font-weight-bold">Rp. {totals}</h5>
                 </div>
-                <button className="btn btn-block btn-primary my-3 py-3" onClick={handleCheckout}>
+                <button
+                  className="btn btn-block btn-primary my-3 py-3"
+                  onClick={handleCheckout}
+                >
                   Proceed To Checkout
                 </button>
               </div>

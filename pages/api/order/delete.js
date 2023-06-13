@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         const { id } = req.query;
     
         if (req.method === "DELETE") {
-          const delete_cart = await prisma.cart.delete({
+          const delete_cart = await prisma.order.delete({
             where: {
               id: parseInt(id)
             }
