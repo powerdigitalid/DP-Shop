@@ -1,9 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import useStore from "../../../store/store";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2'
 import { fetchData } from "next-auth/client/_utils";
 
 export default function Chart() {
@@ -19,12 +19,11 @@ export default function Chart() {
     const fetchData = async () => {
       if (session && session.user) {
         const res = await fetch(
-          `/api/chart/getUserCart?status=Belum Checkout&user_google=` +
-            session.user.email
+          `/api/chart/getUserCart?status=Belum Checkout&user_google=` + session.user.email
         );
         const data = await res.json();
         if (data && data.length > 0) {
-          console.log(filterAndSumByProductId(data));
+          console.log(filterAndSumByProductId(data))
           setCart(filterAndSumByProductId(data));
           calculateTotal(filterAndSumByProductId(data));
         }
@@ -45,7 +44,7 @@ export default function Chart() {
       } else {
         // Jika product_id belum ada, buat entri baru
         filteredItems[productId] = {
-          id: product.id,
+          id: id,
           user_google: user_google,
           product: {
             id: product.id,
@@ -89,12 +88,15 @@ export default function Chart() {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          alert("Berhasil hapus");
+          Swal.fire("Berhasil hapus");
+          router.replace("/landingpage/chart");
           fetchData();
+          // window.location.reload();
         } else {
-          alert("Gagal hapus");
+          Swal.fire("Gagal hapus");
           console.log(res);
         }
+        // window.location.reload();
       });
   };
 
@@ -127,11 +129,22 @@ export default function Chart() {
         .then((res) => res.json())
         .then((res) => {
           if (res.data) {
-            alert("Berhasil checkout");
+            Swal.fire({
+              icon: "success",
+              title: "Checkout Success",
+              text: "Thank you for your order",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             handleClear();
             router.push("/landingpage/chart/order");
           } else {
-            alert("Gagal checkout");
+            Swal.fire({
+              title: "Are you sure?",
+              text: "You want to logout from this session?",
+              icon: "warning",
+              showCancelButton: true,
+            });
             console.log(res);
           }
         });

@@ -33,7 +33,7 @@ export default function Detail() {
         <div className="col-lg-5 pb-5">
             <div className="border">
                 <img
-                  className="w-50 h-50"
+                  className="w-50 h-50 text-center mx-auto justify-content-center"
                   src={data.product_img}
                   alt=""
                 />
@@ -45,29 +45,6 @@ export default function Detail() {
           <p className="mb-4">
             {data.product_desc}
           </p>
-          {/* <div className="d-flex align-items-center mb-4 pt-2">
-            <div className="input-group quantity mr-3" style={{ width: 130 }}>
-              <div className="input-group-btn">
-                <button className="btn btn-primary btn-minus">
-                  <i className="fa fa-minus" />
-                </button>
-              </div>
-              <input
-                type="text"
-                className="form-control bg-secondary text-center"
-                defaultValue={1}
-              />
-              <div className="input-group-btn">
-                <button className="btn btn-primary btn-plus">
-                  <i className="fa fa-plus" />
-                </button>
-              </div>
-            </div>
-            <button className="btn btn-primary px-3" href="/">
-              <i className="fa fa-back mr-1" /> Kembali
-            </button>
-          </div> */}
-          {/* button back to / */}
           <a href="/">
           <button className="btn btn-primary px-3">
          

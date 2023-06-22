@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 export default function Chart() {
   const { data: session, status } = useSession();
@@ -120,11 +121,21 @@ export default function Chart() {
         .then((res) => res.json())
         .then((res) => {
           if (res.data) {
-            alert('Order berhasil!')
+            Swal.fire({
+              title: "Checkout berhasil",
+              text: "Silahkan cek email anda untuk melihat detail order",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
             handleState(e);
             router.push("/");
           } else {
-            alert("Gagal checkout");
+            Swal.fire({
+              title: "Checkout gagal",
+              text: "Silahkan coba lagi",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
           }
         });
     }

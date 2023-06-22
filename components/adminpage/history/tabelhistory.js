@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 export default function Tabelhistory() {
     const [data, setData] = useState([])
@@ -26,6 +27,25 @@ export default function Tabelhistory() {
                 setError(err);
             });
     };
+
+    const handleDelete = (id) => {
+        fetch(`/api/order/delete?id=${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.data) {
+              Swal.fire("Berhasil hapus");
+              router.replace("/landingpage/chart");
+              fetchData();
+              // window.location.reload();
+            } else {
+              Swal.fire("Gagal hapus");
+              console.log(res);
+            }
+            // window.location.reload();
+          });
+      };
 
     useEffect(() => {
         handleOrder();
@@ -62,7 +82,7 @@ export default function Tabelhistory() {
                                                 <td>{order.expedisi}</td>
                                                 <td>
                                                     <Link href={`/admin/history/detail?id=${order.id}`} className="btn btn-primary mr-1 rounded text-white"><i className="far fa-eye mr-1" />Detail</Link>
-                                                    <button className="btn btn-danger rounded text-white"><i className="far fa-trash-alt mr-1" />Hapus</button>
+                                                    <button className="btn btn-danger rounded text-white" onClick={() => handleDelete(order.id)}><i className="far fa-trash-alt mr-1" />Hapus</button>
                                                 </td>
                                             </tr>
                                             )) : <tr><td colSpan="5" className="text-center">Tidak ada data order</td></tr>}

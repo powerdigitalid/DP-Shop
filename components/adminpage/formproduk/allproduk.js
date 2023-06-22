@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from 'react'
 import { useRouter } from "next/router";
+import Swal from 'sweetalert2'
 
 export default function AllProducts() {
     const [data, setData] = useState([])
@@ -36,10 +37,20 @@ export default function AllProducts() {
         .then((res) => res.json())
         .then((res) => {
             if (res.data) {
-                alert("delete oke")
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil menghapus produk",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
                 handleProduct();
             } else {
-                alert("Gagal menghapus produk");
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal menghapus produk",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
             }
         })
     };
@@ -74,7 +85,7 @@ export default function AllProducts() {
                     <div className="row">
                         <div className="col-md-8">
                             <h3 className="font-weight-semi-bold">{prod.product_name}</h3>
-                            <h3 className="font-weight-semi-bold mb-4">{prod.product_desc}</h3>
+                            <h3 className="font-weight-semi-bold mb-4">{prod.product_price}</h3>
                         </div>
                         <div className="col-md-4">
                             <Link href={`/admin/formprodukpages/editproduk?id=${prod.id}`} className="btn btn-primary rounded mr-2 text-white">Edit</Link>

@@ -53,26 +53,26 @@ export default function Sidebar() {
       if (result.isConfirmed) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        router.push("/login");
+        router.push("/");
       }
     })
   }
   return (
     <div className="main-sidebar sidebar-style-2">
       <aside id="sidebar-wrapper">
-        <div className="sidebar-brand">
+        <div className="sidebar-brand mb-5">
           <Link href="/admin">
             <Image
-            //   src="/dist/img/logo/logos.png"
+              src="/landingpage/img/dioshop.png"
               alt="logo"
-              width={150}
-              height={50}
+              width={100}
+              height={100}
               className="shadow-light"
             />
           </Link>
         </div>
         <div className="sidebar-brand sidebar-brand-sm">
-          <Link href="/admin">RA</Link>
+          <Link href="/admin">DP</Link>
         </div>
         <ul className="sidebar-menu">
           <li className="menu-header">Admin Menu</li>
