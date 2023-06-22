@@ -98,11 +98,11 @@ export default function TrendProduct() {
                   <img className="img-fluid w-100" src={prod.product_img} alt />
                 </div>
                 <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                  <h6 className="text-truncate mb-3">{prod.product_name}</h6>
+                  <h6 className="text-truncate text-primary mb-3">{prod.product_name}</h6>
+                  <label>{prod.product_desc}</label>
                   <div className="d-flex justify-content-center">
-                    <h6>{prod.product_desc}</h6>
-                    <h6 className="text-muted ml-2">
-                      <del>Rp.{prod.product_price}</del>
+                    <h6 className="m-2">
+                      <label>Rp.{prod.product_price}</label>
                     </h6>
                   </div>
                 </div>
