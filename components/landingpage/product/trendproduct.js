@@ -99,7 +99,7 @@ export default function TrendProduct() {
                 </div>
               </div>
               <div className="card-footer d-flex justify-content-between bg-light border">
-                <Link href="/landingpage/detail#detail" className="btn btn-sm text-dark p-0">
+                <Link href={`/landingpage/detail?id=${prod.id}`} className="btn btn-sm text-dark p-0">
                   <i className="fas fa-eye text-primary mr-1" />
                   View Detail
                 </Link>
