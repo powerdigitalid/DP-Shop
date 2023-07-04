@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         const { insert } = req.body;
         console.log(insert)
         insert.forEach(async (item) => {
-          const { user_google, name_user, order_date, total, cart_id, expedisi, address, shipping } = item;
+          const { user_google, name_user, order_date, total, cart_id, expedisi, address, shipping, no_telp, nama_pelanggan } = item;
           const new_order = {
             user_google: user_google,
             name_user: name_user,
@@ -23,6 +23,8 @@ export default async function handler(req, res) {
             },
             expedisi: expedisi,
             address: address,
+            no_telp: no_telp,
+            nama_pelanggan: nama_pelanggan,
             shipping: parseInt(shipping),
             status: "Belum Bayar"
           };
@@ -32,7 +34,7 @@ export default async function handler(req, res) {
         });
         res.status(200).json({ message: "Berhasil membuat order baru", data: insert });
       } else {
-        const { user_google, name_user, order_date, total, cart_id, expedisi, address, shipping } = req.body;
+        const { user_google, name_user, order_date, total, cart_id, expedisi, address, shipping, no_telp, nama_pelanggan } = req.body;
         const new_order = {
           user_google: user_google,
           name_user: name_user,
@@ -45,6 +47,8 @@ export default async function handler(req, res) {
           },
           expedisi: expedisi,
           address: address,
+          no_telp: no_telp,
+          nama_pelanggan: nama_pelanggan,
           shipping: parseInt(shipping),
           status: "Belum Bayar"
         };

@@ -40,6 +40,8 @@ model Order {
   order_date  DateTime @default(now())
   total       Int
   address     String?
+  no_telp     String?
+  nama_pelanggan String?
   expedisi    String?
   shipping    Int?
   user_google String

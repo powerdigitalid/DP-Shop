@@ -3,7 +3,7 @@ import React from "react";
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
 
-export default function Detailhistory() {
+export default function Detailpemesanan() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -69,6 +69,10 @@ export default function Detailhistory() {
             <p className="text-dark font-weight-medium mb-0 mr-3">Ekspedisi: {data.expedisi}</p>
             
           </div>
+          <h6>Nama</h6>
+          <h4>{data.nama_pelanggan}</h4>
+          <h6>Nomor Hp</h6>
+          <h4>{data.no_telp}</h4>
           <h6>Alamat</h6>
           <h4>{data.address}</h4>
           <div className="card border-secondary mb-5">
@@ -90,7 +94,7 @@ export default function Detailhistory() {
                 <h5 className="font-weight-bold">Total</h5>
                 <h5 className="font-weight-bold">Rp.{data.total}</h5>
               </div>
-              <Link href="/admin/history" className="btn btn-block btn-primary my-3 py-3">
+              <Link href="/admin/pemesanan" className="btn btn-block btn-primary my-3 py-3">
                 Kembali
               </Link>
             </div>

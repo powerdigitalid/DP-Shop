@@ -30,6 +30,8 @@ export default async function handler(req, res) {
             name_user: true,
             address : true,
             expedisi : true,
+            nama_pelanggan: true,
+            no_telp : true,
             shipping : true,
             total : true,
             status : true,

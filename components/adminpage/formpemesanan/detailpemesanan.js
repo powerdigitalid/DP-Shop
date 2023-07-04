@@ -69,6 +69,10 @@ export default function Detailpemesanan() {
             <p className="text-dark font-weight-medium mb-0 mr-3">Ekspedisi: {data.expedisi}</p>
             
           </div>
+          <h6>Nama</h6>
+          <h4>{data.nama_pelanggan}</h4>
+          <h6>Nomor Hp</h6>
+          <h4>{data.no_telp}</h4>
           <h6>Alamat</h6>
           <h4>{data.address}</h4>
           <div className="card border-secondary mb-5">

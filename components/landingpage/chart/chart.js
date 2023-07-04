@@ -104,6 +104,8 @@ export default function Chart() {
           cart_id: item.id,
           order_date: new Date(),
           address: order.address,
+          no_telp: order.no_telp,
+          nama_pelanggan: order.nama_pelanggan,
           expedisi: order.expedisi,
           shipping: order.shipping,
           name_user: session.user.name,
@@ -256,6 +258,10 @@ export default function Chart() {
               </div>
             </form>
           </div>
+          <h4>Nama</h4>
+          <input type="text" className="form-control mb-2" placeholder="Nama Anda" onChange={(e) => setOrder({ ...order, nama_pelanggan: e.target.value })} />
+          <h4>Nomer Handphone</h4>
+          <input type="text" className="form-control mb-2" placeholder="Nomer Anda" onChange={(e) => setOrder({ ...order, no_telp: e.target.value })} />
           <h4>Alamat</h4>
           <input type="text" className="form-control mb-2" placeholder="Alamat Anda" onChange={(e) => setOrder({ ...order, address: e.target.value })} />
           <div className="card border-secondary mb-5">
